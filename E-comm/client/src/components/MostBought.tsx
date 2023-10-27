@@ -6,7 +6,7 @@ import Img2 from '../assets/ecommerce images/camera 1.jpg';
 function MostBought() {
   return (
     <div className='grid grid-cols-1 gap-3 md:grid-cols-3'>
-      <div className='max-w-lg mx-auto p-4 rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
+      <div className='max-w-lg mx-auto  rounded-lg shadow-xl shadow-slate-700 overflow-hidden'>
         {/* Carousel */}
         <Carousel showArrows={true} showThumbs={true}>
           <div className='rounded-md'>
@@ -31,7 +31,7 @@ function MostBought() {
         </div>
       </div>
 
-      <div className='max-w-lg mx-auto p-4 rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
+      <div className='max-w-lg mx-auto rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
         {/* Carousel */}
         <Carousel showArrows={true} showThumbs={true}>
           <div className='rounded-md'>
@@ -56,7 +56,7 @@ function MostBought() {
         </div>
       </div>
 
-      <div className='max-w-lg mx-auto p-4 rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
+      <div className='max-w-lg mx-auto rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
         {/* Carousel */}
         <Carousel showArrows={true} showThumbs={true}>
           <div className='rounded-md'>

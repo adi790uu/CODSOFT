@@ -24,8 +24,8 @@ const components = [
 const Home = () => {
   return (
     <div className='w-full'>
-      <div className='flex flex-col'>
-        <div className='flex items-center justify-center mt-10'>
+      <div className='flex flex-col min-w-screen'>
+        <div className='flex items-center justify-center mt-10 w-3/4 m-auto'>
           <input
             className='py-3 px-3 bg-slate-200 rounded-md w-72 outline-none text-slate-900'
             placeholder='Search...'

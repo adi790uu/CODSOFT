@@ -28,7 +28,7 @@ const categories = [
 
 const Events = () => {
   return (
-    <div className='min-w-screen'>
+    <div className='max-w-screen'>
       <div className='mt-10 min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center'>
         {categories.map((category) => (
           <div

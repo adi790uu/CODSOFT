@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Product from './pages/Product';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/auth' element={<OTP />}></Route>
           <Route path='/home' element={<Home />}></Route>
           <Route path='/product' element={<Product />}></Route>
+          <Route path='/profile' element={<Profile />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
