@@ -7,7 +7,8 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Product from './pages/Product';
 import Profile from './pages/Profile';
-import Cart from './pages/Orders';
+import Orders from './pages/Orders';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -15,13 +16,14 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Login />}></Route>
-          <Route path='/signUp' element={<SignUp />}></Route>
-          <Route path='/auth' element={<OTP />}></Route>
-          <Route path='/home' element={<Home />}></Route>
-          <Route path='/product' element={<Product />}></Route>
-          <Route path='/profile' element={<Profile />}></Route>
-          <Route path='/orders' element={<Cart />}></Route>
+          <Route path='/' element={<Login />} />
+          <Route path='/signUp' element={<SignUp />} />
+          <Route path='/auth' element={<OTP />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/product' element={<Product />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/orders' element={<Orders />} />
+          <Route path='/cart' element={<Cart />} />
         </Routes>
         <Footer />
       </BrowserRouter>

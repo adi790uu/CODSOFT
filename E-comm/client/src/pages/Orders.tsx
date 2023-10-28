@@ -36,7 +36,7 @@ const Orders = () => {
 
   return (
     <div className='min-h-screen font-body'>
-      <p className='text-center font-title text-3xl mt-10 font-semibold'>
+      <p className='text-center font-title text-4xl mt-10 font-semibold'>
         Orders
       </p>
       <div className='divider'></div>
