@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import Modal from '../components/Modal';
-
 const Profile = () => {
   const user = {
     email: 'johndoe@example.com',
@@ -44,6 +41,7 @@ const Profile = () => {
               <div className='flex justify-end mt-10'>
                 <button
                   onClick={() =>
+                    //@ts-ignore
                     document.getElementById('my_modal_2').showModal()
                   }
                   className='bg-cyan-800 text-white py-2 px-4 rounded-lg hover:bg-cyan-600 focus:outline-none transition duration-300'
@@ -51,12 +49,9 @@ const Profile = () => {
                   Change Address
                 </button>
 
-                {/* You can open the modal using document.getElementById('ID').showModal() method */}
-
                 <dialog id='my_modal_2' className='modal'>
                   <div className='modal-box max-w-fit'>
                     <form method='dialog'>
-                      {/* if there is a button in form, it will close the modal */}
                       <button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
                         ✕
                       </button>

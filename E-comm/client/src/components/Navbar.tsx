@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const sideDrawer = [
-    { item: 'Profile', key: 1 },
-    { item: 'Cart', key: 2 },
-    { item: 'Orders', key: 3 },
+    { item: 'Profile', key: 1, link: '/profile' },
+    { item: 'Cart', key: 2, link: '/cart' },
+    { item: 'Orders', key: 3, link: '/orders' },
   ];
 
   return (
@@ -58,14 +58,11 @@ const Navbar = () => {
               </div>
 
               {sideDrawer.map((item) => (
-                <span
-                  key={item.key}
-                  className='py-2 px-3 hover:bg-slate-700 rounded-md'
-                >
-                  <Link to='/'>
+                <Link to={item.link} key={item.key}>
+                  <button className='py-2 px-3 hover:bg-slate-700 rounded-md w-full text-left'>
                     <span className='text-lg tracking-wide'>{item.item}</span>
-                  </Link>
-                </span>
+                  </button>
+                </Link>
               ))}
             </ul>
           </div>
