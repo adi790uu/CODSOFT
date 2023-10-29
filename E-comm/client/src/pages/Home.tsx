@@ -8,16 +8,19 @@ const components = [
     key: 1,
     component: <Categories />,
     header: <Heading heading='Categories' />,
+    divider: true,
   },
   {
     key: 2,
     component: <MostBought />,
     header: <Heading heading='Most Bought' />,
+    divider: true,
   },
   {
     key: 3,
     component: <HighestRated />,
     header: <Heading heading='Highest Rated' />,
+    divider: false,
   },
 ];
 
@@ -40,12 +43,16 @@ const Home = () => {
         </div>
 
         <div className='divider'></div>
+        <p className='text-neutral-300 tracking-wider font-semibold font-body ml-4 mb-10 text-xl text-center'>
+          Swipe &rarr; to view products.
+        </p>
 
         {components.map((component) => (
           <div key={component.key}>
             {component.header}
+
             <div className='mt-20 mb-10'>{component.component}</div>
-            <div className='divider'></div>
+            {component.divider ? <div className='divider'></div> : ''}
           </div>
         ))}
       </div>

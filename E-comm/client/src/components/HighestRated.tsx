@@ -1,84 +1,51 @@
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Img1 from '../assets/ecommerce images/1.jpg';
-import Img2 from '../assets/ecommerce images/camera 1.jpg';
+import ProductDisplay from './ProductDisplay';
+import Img5 from '../assets/books/book5.jpg';
+import Img6 from '../assets/books/book6.jpg';
+import Img1 from '../assets/books/book1.jpg';
+import Img2 from '../assets/books/book2.jpg';
+import Img3 from '../assets/books/book3.jpg';
+
+const products = [
+  {
+    id: 1,
+    name: 'Product 1',
+    price: '40',
+    img: Img5,
+  },
+  {
+    id: 2,
+    name: 'Product 1',
+    price: '40',
+    img: Img6,
+  },
+  {
+    id: 3,
+    name: 'Product 1',
+    price: '40',
+    img: Img1,
+  },
+  {
+    id: 4,
+    name: 'Product 1',
+    price: '40',
+    img: Img2,
+  },
+  {
+    id: 5,
+    name: 'Product 1',
+    price: '40',
+    img: Img3,
+  },
+];
+
 function HighestRated() {
   return (
-    <div className='grid grid-cols-1 md:gap-3 md:grid-cols-3'>
-      <div className='mx-auto rounded-lg shadow-xl shadow-slate-700 overflow-hidden'>
-        {/* Carousel */}
-        <Carousel showArrows={true} showThumbs={true}>
-          <div className='rounded-md'>
-            <img className='rounded-md' src={Img1} alt='Product 1' />
-          </div>
-          <div>
-            <img className='rounded-md' src={Img2} alt='Product 2' />
-          </div>
-        </Carousel>
-
-        <div className='p-4'>
-          <h2 className='text-xl font-semibold'>Product Name</h2>
-          <p className='text-gray-700 my-2'>Product description goes here.</p>
-          <div className='flex justify-between items-center mt-4'>
-            <span className='text-2xl font-semibold text-indigo-600'>
-              $99.99
-            </span>
-            <button className='bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md'>
-              Buy Now
-            </button>
-          </div>
+    <div className='carousel carousel-end w-full md:mr-4 md:ml-4'>
+      {products.map((product) => (
+        <div className='carousel-item mr-8' key={product.id}>
+          <ProductDisplay product={product} />
         </div>
-      </div>
-
-      <div className='max-w-lg mx-auto rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
-        {/* Carousel */}
-        <Carousel showArrows={true} showThumbs={true}>
-          <div className='rounded-md'>
-            <img className='rounded-md' src={Img1} alt='Product 1' />
-          </div>
-          <div>
-            <img className='rounded-md' src={Img2} alt='Product 2' />
-          </div>
-        </Carousel>
-
-        <div className='p-4'>
-          <h2 className='text-xl font-semibold'>Product Name</h2>
-          <p className='text-gray-700 my-2'>Product description goes here.</p>
-          <div className='flex justify-between items-center mt-4'>
-            <span className='text-2xl font-semibold text-indigo-600'>
-              $99.99
-            </span>
-            <button className='bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md'>
-              Buy Now
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className='max-w-lg mx-auto rounded-lg shadow-xl shadow-slate-700   overflow-hidden'>
-        {/* Carousel */}
-        <Carousel showArrows={true} showThumbs={true}>
-          <div className='rounded-md'>
-            <img className='rounded-md' src={Img1} alt='Product 1' />
-          </div>
-          <div>
-            <img className='rounded-md' src={Img2} alt='Product 2' />
-          </div>
-        </Carousel>
-
-        <div className='p-4'>
-          <h2 className='text-xl font-semibold'>Product Name</h2>
-          <p className='text-gray-700 my-2'>Product description goes here.</p>
-          <div className='flex justify-between items-center mt-4'>
-            <span className='text-2xl font-semibold text-indigo-600'>
-              $99.99
-            </span>
-            <button className='bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md'>
-              Buy Now
-            </button>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

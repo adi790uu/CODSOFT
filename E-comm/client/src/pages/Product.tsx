@@ -1,4 +1,4 @@
-import ProductCarousel from '../components/ProductCarousel';
+import ProductCarousel from '../components/ProductDetails';
 import RecommendedProducts from '../components/RecommendedProducts';
 import Heading from '../components/Heading';
 

@@ -9,7 +9,7 @@ export default {
       mono: ['ui-monospace', 'SFMono-Regular'],
       display: ['Handjet'],
       body: ['Ubuntu'],
-      title: ['"Tilt Neon"'],
+      title: ['"Ysabeau SC"'],
     },
   },
   daisyui: {
