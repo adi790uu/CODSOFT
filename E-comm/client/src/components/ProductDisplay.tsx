@@ -1,8 +1,7 @@
 const ProductDisplay = ({ product }: any) => {
-  console.log(product);
   return (
     <div className='m-auto font-body mt-2 md:mt-0'>
-      <div className='card card-side shadow-xl rounded-md flex flex-col max-w-xs md:max-w-sm ml-2 bg-slate-800 h-[48rem]'>
+      <div className='card card-side shadow-xl rounded-md flex flex-col max-w-xs md:max-w-sm ml-2 bg-slate-800 h-[40rem] md:h-[48rem]'>
         <figure className=''>
           <img className='rounded-md' src={product.img} alt='Book' />
         </figure>

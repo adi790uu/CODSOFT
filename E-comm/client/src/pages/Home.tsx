@@ -43,9 +43,6 @@ const Home = () => {
         </div>
 
         <div className='divider'></div>
-        <p className='text-neutral-300 tracking-wider font-semibold font-body ml-4 mb-10 text-xl text-center'>
-          Swipe &rarr; to view products.
-        </p>
 
         {components.map((component) => (
           <div key={component.key}>

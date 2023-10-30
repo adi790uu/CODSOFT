@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const sideDrawer = [
+    { item: 'Browse', key: 4, link: '/browse' },
     { item: 'Profile', key: 1, link: '/profile' },
     { item: 'Cart', key: 2, link: '/cart' },
     { item: 'Orders', key: 3, link: '/orders' },

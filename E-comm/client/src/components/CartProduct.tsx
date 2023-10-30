@@ -1,4 +1,4 @@
-import Img1 from '../assets/categories/clothing.jpeg';
+import Img1 from '../assets/books/book2.jpg';
 import { useState } from 'react';
 
 const CartProduct = (props: any) => {
@@ -16,10 +16,8 @@ const CartProduct = (props: any) => {
   return (
     <div className='m-auto w-full md:w-2/4 flex flex-col md:flex-row rounded-md p-4 font-body border-t-2 border-b-2 border-stone-400'>
       <div className='flex md:w-3/4'>
-        <div className='avatar'>
-          <div className='w-24 rounded'>
-            <img className='object-scale-down' src={Img1} />
-          </div>
+        <div className='rounded-lg'>
+          <img className='w-32 md:w-48 object-scale-down' src={Img1} />
         </div>
         <div className='w-full flex flex-col justify-evenly'>
           <p className='ml-4 font-medium text-neutral-300 text-lg md:text-2xl '>

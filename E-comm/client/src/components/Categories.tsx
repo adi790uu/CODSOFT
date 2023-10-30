@@ -7,49 +7,47 @@ const categories = [
   {
     img: Img1,
     key: 1,
-    heading: 'Electronics',
+    heading: 'Fiction',
   },
   {
     img: Img2,
     key: 2,
-    heading: 'Clothing',
+    heading: 'Non-Fiction',
   },
   {
     img: Img3,
     key: 3,
-    heading: 'Footwear',
+    heading: 'Science',
   },
   {
     img: Img4,
     key: 4,
-    heading: 'Furniture',
+    heading: 'Mystery and Thriller',
+  },
+  {
+    img: Img4,
+    key: 5,
+    heading: 'Technology',
   },
 ];
 
 const Events = () => {
   return (
     <div className='max-w-screen'>
-      <div className='mt-10 min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center'>
+      <div className='mt-10 min-w-full flex flex-col md:flex-row justify-center items-center'>
         {categories.map((category) => (
-          <div
+          <button
             key={category.key}
-            className='w-72 bg-white border border-gray-200 rounded-lg shadow-xl shadow-slate-700 hover:shadow-none dark:bg-gray-800 dark:border-gray-700 p-1'
+            className='transition duration-300 ease-in-out w-3/4 md:max-w-xs bg-white border border-gray-200 rounded-lg shadow-md shadow-slate-700 hover:shadow-none dark:bg-gray-800 dark:border-gray-700 mt-4 md:mr-4'
           >
-            <a href='#'>
-              <img
-                className='rounded-lg w-full m-auto h-56'
-                src={category.img}
-                alt={category.heading}
-              />
-            </a>
             <div className='p-5'>
               <a href='#'>
-                <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
+                <h5 className='tracking-wider mb-2 text-md md:text-2xl font-bold text-gray-900 dark:text-white font-title'>
                   {category.heading}
                 </h5>
               </a>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>

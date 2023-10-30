@@ -39,9 +39,9 @@ function MostBought() {
     },
   ];
   return (
-    <div className='carousel carousel-end md:mr-4 md:ml-4'>
+    <div className='carousel carousel-end w-full md:mr-4 md:ml-4'>
       {products.map((product) => (
-        <div className='carousel-item' key={product.id}>
+        <div className='carousel-item mr-8' key={product.id}>
           <ProductDisplay product={product} />
         </div>
       ))}

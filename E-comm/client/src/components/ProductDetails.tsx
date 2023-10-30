@@ -1,5 +1,5 @@
-import Img1 from '../assets/ecommerce images/1.jpg';
-import Img2 from '../assets/ecommerce images/2.jpg';
+import Img1 from '../assets/books/book2.jpg';
+import Img2 from '../assets/books/book6.jpg';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Pricing from './Pricing';
