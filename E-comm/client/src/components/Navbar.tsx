@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const sideDrawer = [
-    { item: 'Browse', key: 4, link: '/browse' },
-    { item: 'Profile', key: 1, link: '/profile' },
-    { item: 'Cart', key: 2, link: '/cart' },
-    { item: 'Orders', key: 3, link: '/orders' },
+    { item: 'Home', key: 1, link: '/home' },
+    { item: 'Browse', key: 2, link: '/browse' },
+    { item: 'Profile', key: 3, link: '/profile' },
+    { item: 'Cart', key: 4, link: '/cart' },
+    { item: 'Orders', key: 5, link: '/orders' },
+    { item: 'Admin', key: 6, link: '/admin' },
   ];
 
   return (
@@ -60,7 +62,7 @@ const Navbar = () => {
 
               {sideDrawer.map((item) => (
                 <Link to={item.link} key={item.key}>
-                  <button className='py-2 px-3 hover:bg-slate-700 rounded-md w-full text-left'>
+                  <button className='py-2 px-3 transition duration-300 hover:bg-slate-700 rounded-md w-full text-left'>
                     <span className='text-lg tracking-wide'>{item.item}</span>
                   </button>
                 </Link>

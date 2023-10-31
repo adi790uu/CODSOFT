@@ -5,7 +5,7 @@ import Img3 from '../assets/books/book3.jpg';
 import Img4 from '../assets/books/book4.jpg';
 import Img5 from '../assets/books/book5.jpg';
 
-function MostBought() {
+function MostBoughtCarousel() {
   const products = [
     {
       id: 1,
@@ -49,4 +49,4 @@ function MostBought() {
   );
 }
 
-export default MostBought;
+export default MostBoughtCarousel;

@@ -1,4 +1,4 @@
-import CartProduct from '../components/CartProduct';
+import CartProduct from '../components/CartProductCard';
 
 const Cart = () => {
   const currentOrders = [

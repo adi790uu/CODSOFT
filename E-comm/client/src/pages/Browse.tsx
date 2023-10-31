@@ -95,7 +95,7 @@ const Browse = () => {
     stat === 'stat1' ? books : books.filter((book) => book.price === stat);
 
   return (
-    <div className=' text-white min-h-screen'>
+    <div className=' text-white min-h-screen bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
       <header className='py-4 bg-slate-900'>
         <div className='container flex justify-between items-start'>
           <h1 className='text-2xl font-bold ml-4 font-title tracking-wider'>

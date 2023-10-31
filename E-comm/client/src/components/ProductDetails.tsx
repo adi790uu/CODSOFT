@@ -12,7 +12,7 @@ const ProductCarousel = () => {
           <Carousel showArrows={true} showThumbs={true}>
             <div className='rounded-md'>
               <img className='rounded-md' src={Img1} alt='Product 1' />
-            </div>
+            </div>  
             <div>
               <img className='rounded-md' src={Img2} alt='Product 2' />
             </div>

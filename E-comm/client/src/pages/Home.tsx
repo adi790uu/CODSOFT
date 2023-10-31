@@ -1,5 +1,5 @@
-import MostBought from '../components/MostBought';
-import HighestRated from '../components/HighestRated';
+import MostBought from '../components/MostBoughtCarousel';
+import HighestRated from '../components/HighestRatedCarousel';
 import Heading from '../components/Heading';
 import Categories from '../components/Categories';
 
@@ -26,7 +26,7 @@ const components = [
 
 const Home = () => {
   return (
-    <div className='w-full'>
+    <div className='w-full  bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
       <div className='flex flex-col min-w-screen'>
         <div className='flex items-center justify-center mt-10 w-3/4 m-auto'>
           <input

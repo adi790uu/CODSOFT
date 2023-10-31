@@ -1,5 +1,5 @@
 import ProductCarousel from '../components/ProductDetails';
-import RecommendedProducts from '../components/RecommendedProducts';
+import RecommendedProducts from '../components/RecommendedProductsCarousel';
 import Heading from '../components/Heading';
 
 const Product = () => {

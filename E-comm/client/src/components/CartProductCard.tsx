@@ -1,7 +1,7 @@
 import Img1 from '../assets/books/book2.jpg';
 import { useState } from 'react';
 
-const CartProduct = (props: any) => {
+const CartProductCard = (props: any) => {
   const [quantity, setQuantity] = useState(1);
 
   const incrementQuantity = () => {
@@ -63,4 +63,4 @@ const CartProduct = (props: any) => {
   );
 };
 
-export default CartProduct;
+export default CartProductCard;

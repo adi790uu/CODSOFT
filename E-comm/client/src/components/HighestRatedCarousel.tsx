@@ -38,7 +38,7 @@ const products = [
   },
 ];
 
-function HighestRated() {
+function HighestRatedCarousel() {
   return (
     <div className='carousel carousel-end w-full md:mr-4 md:ml-4'>
       {products.map((product) => (
@@ -50,4 +50,4 @@ function HighestRated() {
   );
 }
 
-export default HighestRated;
+export default HighestRatedCarousel;
