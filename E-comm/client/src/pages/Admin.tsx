@@ -1,3 +1,5 @@
+import BookForm from '../components/BookForm';
+
 function AdminPage() {
   // Sample sales data (replace with your actual data)
   const data = {
@@ -63,7 +65,28 @@ function AdminPage() {
               <h3 className='text-xl font-semibold text-white'>
                 Create Product
               </h3>
-              <button className='btn btn-sm btn-secondary'>Proceed</button>
+
+              <button
+                className='btn btn-sm btn-secondary'
+                onClick={() =>
+                  //@ts-ignore
+                  document.getElementById('my_modal_1').showModal()
+                }
+              >
+                Proceed
+              </button>
+              <dialog id='my_modal_1' className='modal'>
+                <div className='modal-box'>
+                  <div className='modal-action'>
+                    <form method='dialog' className='w-full'>
+                      <BookForm />
+                      <div className='flex justify-end'>
+                        <button className='btn mt-5'>Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-md flex gap-4 items-center justify-between bg-gradient-to-r from-slate-900 to-slate-700'>
               <h3 className='text-xl font-semibold text-white'>

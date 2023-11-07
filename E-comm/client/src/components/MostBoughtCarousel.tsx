@@ -1,46 +1,41 @@
 import ProductDisplay from './ProductDisplay';
-import Img1 from '../assets/books/book1.jpg';
-import Img2 from '../assets/books/book2.jpg';
-import Img3 from '../assets/books/book3.jpg';
-import Img4 from '../assets/books/book4.jpg';
-import Img5 from '../assets/books/book5.jpg';
+import { useQuery, gql } from '@apollo/client';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { booksState } from '../store/atoms/books';
+import { useEffect } from 'react';
+import { useBooks } from '../store/selectors/books';
 
 function MostBoughtCarousel() {
-  const products = [
-    {
-      id: 1,
-      name: 'Product 1',
-      price: '40',
-      img: Img1,
-    },
-    {
-      id: 2,
-      name: 'Product 1',
-      price: '40',
-      img: Img2,
-    },
-    {
-      id: 3,
-      name: 'Product 1',
-      price: '40',
-      img: Img3,
-    },
-    {
-      id: 4,
-      name: 'Product 1',
-      price: '40',
-      img: Img4,
-    },
-    {
-      id: 5,
-      name: 'Product 1',
-      price: '40',
-      img: Img5,
-    },
-  ];
+  const setBooks = useSetRecoilState(booksState);
+  const books = useRecoilValue(useBooks);
+  const getBooks = gql`
+    query Query {
+      getBooks {
+        author
+        description
+        id
+        price
+        rating
+        stock
+        title
+        imageUrl
+      }
+    }
+  `;
+  const { loading, error, data } = useQuery(getBooks);
+
+  // Use a useEffect to update Recoil state when data is available
+  useEffect(() => {
+    if (data) {
+      setBooks(data.getBooks);
+    }
+  }, [data, setBooks]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
   return (
     <div className='carousel carousel-end w-full md:mr-4 md:ml-4'>
-      {products.map((product) => (
+      {books.map((product: any) => (
         <div className='carousel-item mr-8' key={product.id}>
           <ProductDisplay product={product} />
         </div>
