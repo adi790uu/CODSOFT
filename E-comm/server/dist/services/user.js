@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../lib/db");
 const node_crypto_1 = require("node:crypto");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const uuid_1 = require("uuid");
 const SECRET = 'TRabdom2ejed';
 class UserService {
     static generateHash(salt, password) {
@@ -24,15 +26,22 @@ class UserService {
         return hashedPassword;
     }
     static getUserById(id) {
-        return db_1.db.user.findUnique({ where: { id }, include: {
-                orders: true
-            } });
+        return db_1.db.user.findUnique({
+            where: { id },
+            include: {
+                orders: true,
+            },
+        });
     }
     static createUser(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password, address } = payload;
             const salt = (0, node_crypto_1.randomBytes)(32).toString('hex');
             const hashedPassword = UserService.generateHash(salt, password);
+            const payload2 = {
+                email,
+                password,
+            };
             const newUser = yield db_1.db.user.create({
                 data: {
                     name,
@@ -42,12 +51,43 @@ class UserService {
                     address,
                 },
             });
-            console.log(newUser);
-            return newUser;
+            if (newUser) {
+                const token = yield UserService.getUserToken(payload2);
+                const otp = yield UserService.sendOTP(email);
+                const data = Object.assign(Object.assign({}, newUser), { token,
+                    otp });
+                return data;
+            }
         });
     }
     static getUserByEmail(email) {
         return db_1.db.user.findUnique({ where: { email } });
+    }
+    static sendOTP(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var transporter = nodemailer_1.default.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.NODEMAILER_USER,
+                    pass: process.env.NODEMAILER_PASS,
+                },
+            });
+            const uuid = (0, uuid_1.v4)();
+            const otp = (0, uuid_1.v4)();
+            function main() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const info = yield transporter.sendMail({
+                        from: process.env.NODEMAILER_USER,
+                        to: email,
+                        subject: 'Registration',
+                        html: `<h3>Your OTP: ${otp}</h3>`,
+                    });
+                    console.log('Registration message sent: %s', info.messageId);
+                });
+            }
+            yield main();
+            return otp;
+        });
     }
     static getUserToken(payload) {
         return __awaiter(this, void 0, void 0, function* () {

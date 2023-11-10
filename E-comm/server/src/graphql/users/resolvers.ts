@@ -25,13 +25,17 @@ const queries = {
 const mutations = {
   createUser: async (_: any, payload: CreateUserPayload) => {
     const res = await UserService.createUser(payload);
+    console.log(res);
 
     const details = {
-      id: res.id,
-      name: res.name,
-      email: res.email,
-      address: res.address,
+      id: res?.id,
+      name: res?.name,
+      email: res?.email,
+      address: res?.address,
+      token: res?.token,
+      otp: res?.otp,
     };
+    console.log(details);
     return details;
   },
 };

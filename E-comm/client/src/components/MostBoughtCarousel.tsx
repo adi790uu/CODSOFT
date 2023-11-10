@@ -31,12 +31,14 @@ function MostBoughtCarousel() {
     }
   }, [data, setBooks]);
 
+  console.log(books);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <div className='carousel carousel-end w-full md:mr-4 md:ml-4'>
+    <div className='carousel carousel-end w-5/6 md:mr-4 md:ml-4'>
       {books.map((product: any) => (
-        <div className='carousel-item mr-8' key={product.id}>
+        <div className='carousel-item' key={product.id}>
           <ProductDisplay product={product} />
         </div>
       ))}

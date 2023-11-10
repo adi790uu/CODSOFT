@@ -1,4 +1,6 @@
-import BookForm from '../components/BookForm';
+import BookForm from '../components/CreateForm';
+import UpdateForm from '../components/UpdateForm';
+import DeleteForm from '../components/DeleteForm';
 
 function AdminPage() {
   // Sample sales data (replace with your actual data)
@@ -92,17 +94,53 @@ function AdminPage() {
               <h3 className='text-xl font-semibold text-white'>
                 Update Product
               </h3>
-              <button className='btn btn-sm btn-secondary '>Proceed</button>
+              <button
+                className='btn btn-sm btn-secondary'
+                onClick={() =>
+                  //@ts-ignore
+                  document.getElementById('my_modal_2').showModal()
+                }
+              >
+                Proceed
+              </button>
+              <dialog id='my_modal_2' className='modal'>
+                <div className='modal-box'>
+                  <div className='modal-action'>
+                    <form method='dialog' className='w-full'>
+                      <UpdateForm />
+                      <div className='flex justify-end'>
+                        <button className='btn mt-5'>Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-md flex gap-4 items-center justify-between bg-gradient-to-r from-slate-900 to-slate-700'>
               <h3 className='text-xl font-semibold text-white'>
                 Delete Product
               </h3>
-              <button className='btn btn-sm btn-secondary '>Proceed</button>
-            </div>
-            <div className='bg-white p-4 rounded-lg shadow-md flex gap-4 items-center justify-between bg-gradient-to-r from-slate-900 to-slate-700'>
-              <h3 className='text-xl font-semibold text-white'>Out of Stock</h3>
-              <button className='btn btn-sm btn-secondary '>Proceed</button>
+              <button
+                className='btn btn-sm btn-secondary'
+                onClick={() =>
+                  //@ts-ignore
+                  document.getElementById('my_modal_3').showModal()
+                }
+              >
+                Proceed
+              </button>
+              <dialog id='my_modal_3' className='modal'>
+                <div className='modal-box'>
+                  <div className='modal-action'>
+                    <form method='dialog' className='w-full'>
+                      <DeleteForm />
+                      <div className='flex justify-end'>
+                        <button className='btn mt-5'>Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
             </div>
           </div>
         </div>

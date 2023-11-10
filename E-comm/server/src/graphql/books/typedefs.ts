@@ -9,6 +9,7 @@ export const typedefs = `#graphql
     userId: String,
     bookId: String,
     description: String
+    rating: Int
   }
 
   type Book {
@@ -20,6 +21,7 @@ export const typedefs = `#graphql
     author: String
     stock: Int
     imageUrl: String
+    views: Int
     comments: [Review]
   }
 
@@ -43,5 +45,16 @@ export const typedefs = `#graphql
     rating: Int!
   }
 
-  
+  input createCartItem {
+    userId: ID!,
+    bookId: ID!,
+  }
+
+  type Cart {
+    id: ID!
+    userId: ID!,
+    bookId: ID!,
+    quantity: Int,
+  }
+
 `;

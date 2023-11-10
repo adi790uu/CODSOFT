@@ -1,9 +1,17 @@
+import { useNavigate } from 'react-router-dom';
+
 const ProductDisplay = ({ product }: any) => {
-  console.log(product.imageUrl);
+  const navigate = useNavigate();
+  console.log(product);
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    navigate(`/product/${product.id}`);
+  };
   return (
-    <div className='m-auto max-w-xs md:max-w-full font-body mt-2 md:mt-0'>
-      <div className='card card-side shadow-xl rounded-md flex flex-col max-w-xs md:max-w-sm ml-2 bg-slate-800 h-[40rem] md:h-[48rem]'>
-        <figure>
+    <div className='w-4/5 font-body mt-2 md:mt-0 p-4'>
+      <div className='card card-side rounded-md flex flex-col max-w-xs md:max-w-sm bg-slate-800 ml-2 md:ml-0 shadow-md shadow-slate-700'>
+        <figure className='ml-1 mr-1 mt-1'>
           <img className='rounded-md' src={product.imageUrl} alt='Book' />
         </figure>
         <div className='card-body mr-4 md:mr-0'>
@@ -12,7 +20,9 @@ const ProductDisplay = ({ product }: any) => {
             <span className='text-2xl font-bold text-violet-600'>
               ${product.price}
             </span>
-            <button className='btn btn-primary'>Buy Now</button>
+            <button onClick={handleClick} className='btn btn-primary'>
+              Buy Now
+            </button>
           </div>
         </div>
       </div>

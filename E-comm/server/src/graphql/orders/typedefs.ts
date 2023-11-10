@@ -1,4 +1,14 @@
 export const typedefs = `#graphql
+    
+    input getCart {
+        userId: ID!
+    }
+
+    type Cart {
+        userId: ID!
+        book: Book
+        quantity: Int!
+    }
 
     type Order {
         userId: ID!
@@ -6,7 +16,6 @@ export const typedefs = `#graphql
         quantity: Int!
         status: Boolean!
     }
-
     input createOrder {
         userId: ID!
         bookId: ID!

@@ -6,6 +6,8 @@ import Img6 from '../assets/books/book6.jpg';
 import Img1 from '../assets/books/book1.jpg';
 import Img2 from '../assets/books/book2.jpg';
 import Img3 from '../assets/books/book3.jpg';
+import { useBooks } from '../store/selectors/books';
+import { useRecoilValue } from 'recoil';
 
 const books = [
   {
@@ -41,6 +43,7 @@ const books = [
 ];
 
 const Browse = () => {
+  const books = useRecoilValue(useBooks);
   const [stat, setStat] = useState('stat1');
   const [cat, setCat] = useState('cat1');
   const [price, setPrice] = useState('price1');
@@ -92,7 +95,7 @@ const Browse = () => {
   ];
 
   const filteredBooks =
-    stat === 'stat1' ? books : books.filter((book) => book.price === stat);
+    stat === 'stat1' ? books : books.filter((book: any) => book.price === stat);
 
   return (
     <div className=' text-white min-h-screen bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
@@ -155,7 +158,7 @@ const Browse = () => {
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-3'>
-              {filteredBooks.map((book) => (
+              {filteredBooks.map((book: any) => (
                 <BrowseCard product={book} key={book.id} />
               ))}
             </div>

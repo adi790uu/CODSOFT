@@ -8,5 +8,7 @@ exports.typedefs = `#graphql
         email: String!,
         address: String
         orders: [Order]
+        token: String!
+        otp: String
     }
 `;

@@ -56,6 +56,21 @@ const mutations = {
             throw new Error();
         }
     }),
+    increaseView: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(id);
+        const res = yield db_1.db.book.update({
+            where: { id: id },
+            data: {
+                views: {
+                    increment: 1,
+                },
+            },
+        });
+        if (res)
+            return 'Updated';
+        else
+            console.log('fail');
+    }),
     updateBook: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const updatedBook = yield db_1.db.book.update({
@@ -84,11 +99,21 @@ const mutations = {
             console.log(error);
         }
     }),
-    deleteBook: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
+    deleteBook: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
+            yield db_1.db.orders.deleteMany({
+                where: {
+                    bookId: input,
+                },
+            });
+            yield db_1.db.comment.deleteMany({
+                where: {
+                    bookId: input,
+                },
+            });
             yield db_1.db.book.delete({
                 where: {
-                    id: id,
+                    id: input,
                 },
             });
             return 'Deleted';
@@ -100,10 +125,72 @@ const mutations = {
     createReview: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             console.log(input);
+            const book = yield db_1.db.book.findUnique({
+                where: {
+                    id: input.bookId,
+                },
+            });
+            let rating = book === null || book === void 0 ? void 0 : book.rating;
+            rating = (rating + input.rating) / 2;
+            yield db_1.db.book.update({
+                where: {
+                    id: input.bookId,
+                },
+                data: {
+                    rating: Math.ceil(rating),
+                },
+            });
             const review = yield db_1.db.comment.create({
                 data: Object.assign({}, input),
+                include: {
+                    user: true,
+                },
             });
             return review;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }),
+    addToCart: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            console.log(payload);
+            const existingUser = yield db_1.db.user.findUnique({
+                where: {
+                    id: payload.input.userId,
+                },
+            });
+            if (!existingUser) {
+                throw new Error('User not found');
+            }
+            const Item = yield db_1.db.cartItem.findUnique({
+                where: {
+                    unique_user_book: {
+                        userId: payload.input.userId,
+                        bookId: payload.input.bookId,
+                    },
+                },
+            });
+            if (Item) {
+                const cartItem = yield db_1.db.cartItem.update({
+                    where: {
+                        unique_user_book: {
+                            userId: payload.input.userId,
+                            bookId: payload.input.bookId,
+                        },
+                    },
+                    data: {
+                        quantity: {
+                            increment: 1,
+                        },
+                    },
+                });
+                return cartItem;
+            }
+            const cartItem = yield db_1.db.cartItem.create({
+                data: Object.assign({}, payload.input),
+            });
+            return cartItem;
         }
         catch (error) {
             console.log(error);

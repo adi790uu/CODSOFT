@@ -11,7 +11,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const db_1 = require("../../lib/db");
-const queries = {};
+const queries = {
+    getCart: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            console.log(input);
+            const user = yield db_1.db.user.findUnique({
+                where: {
+                    id: input.userId,
+                },
+                include: {
+                    cartItems: {
+                        select: {
+                            id: true,
+                            quantity: true,
+                            book: {
+                                select: {
+                                    id: true,
+                                    title: true,
+                                    imageUrl: true,
+                                    price: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            console.log(user);
+            return user === null || user === void 0 ? void 0 : user.cartItems;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }),
+};
 const mutations = {
     createOrder: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
         try {

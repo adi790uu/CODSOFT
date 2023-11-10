@@ -1,11 +1,29 @@
 import ProductCarousel from '../components/ProductDetails';
 import RecommendedProducts from '../components/RecommendedProductsCarousel';
 import Heading from '../components/Heading';
+import { useMutation, gql } from '@apollo/client';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Product = () => {
+  const { id } = useParams();
+  const incView = gql`
+    mutation Mutation($id: ID) {
+      increaseView(id: $id)
+    }
+  `;
+  const [increaseView] = useMutation(incView, { variables: { id } });
+
+  function inc() {
+    increaseView({ variables: { id } });
+  }
+
+  useEffect(() => {
+    inc();
+  }, []);
   return (
     <>
-      <ProductCarousel />
+      <ProductCarousel id={id} />
       <div className='divider'></div>
       <Heading heading='Similar Products' />
 

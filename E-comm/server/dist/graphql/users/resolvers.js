@@ -34,12 +34,16 @@ const queries = {
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield user_1.default.createUser(payload);
+        console.log(res);
         const details = {
-            id: res.id,
-            name: res.name,
-            email: res.email,
-            address: res.address,
+            id: res === null || res === void 0 ? void 0 : res.id,
+            name: res === null || res === void 0 ? void 0 : res.name,
+            email: res === null || res === void 0 ? void 0 : res.email,
+            address: res === null || res === void 0 ? void 0 : res.address,
+            token: res === null || res === void 0 ? void 0 : res.token,
+            otp: res === null || res === void 0 ? void 0 : res.otp,
         };
+        console.log(details);
         return details;
     }),
 };

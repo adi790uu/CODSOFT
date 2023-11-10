@@ -1,25 +1,43 @@
+import { gql, useQuery } from '@apollo/client';
 import CartProduct from '../components/CartProductCard';
+import { useUser } from '../store/selectors/user';
+import { useRecoilValue } from 'recoil';
+import { useState, useEffect } from 'react';
 
 const Cart = () => {
-  const currentOrders = [
-    {
-      id: 1,
-      product: 'Product A',
-      quantity: 3,
-      price: 25.99,
-    },
-    {
-      id: 2,
-      product: 'Product B',
-      quantity: 2,
-      price: 14.99,
-    },
-  ];
-
   let price = 0;
+  const [cart, setCart] = useState([]);
+  const user = useRecoilValue(useUser);
 
-  currentOrders.map((order) => {
-    price += order.price;
+  const GET_CART = gql`
+    query Query($input: getCart) {
+      getCart(input: $input) {
+        id
+        quantity
+        book {
+          id
+          imageUrl
+          price
+          title
+        }
+      }
+    }
+  `;
+
+  const input = {
+    userId: user.id,
+  };
+
+  const { data } = useQuery(GET_CART, { variables: { input } });
+
+  useEffect(() => {
+    if (data && data.getCart) {
+      setCart(data.getCart);
+    }
+  }, [data]);
+
+  data.getCart.map((order: any): any => {
+    price += order.book.price;
   });
   return (
     <div className='min-h-screen font-body tracking-wider'>
@@ -28,13 +46,17 @@ const Cart = () => {
       </p>
       <div className='divider'></div>
       <section className='mb-8'>
-        {currentOrders.map((order) => (
-          <div key={order.id} className='w-fit md:w-3/4 m-auto'>
-            <CartProduct order={order} />
-            <div className='divider'></div>
-          </div>
-        ))}
-        <div className='w-fit md:w-3/4 shadow-lg rounded-lg p-4 m-auto'>
+        {cart ? (
+          cart.map((order) => (
+            <div key={order.id} className='w-fit md:w-3/4 m-auto'>
+              <CartProduct order={order} />
+              <div className='divider'></div>
+            </div>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
+        <div className='w-full md:w-3/4 shadow-lg rounded-lg p-4 m-auto'>
           <p className='text-2xl text-neutral-300 md:w-2/4 m-auto flex justify-end bg-slate-700 rounded-lg p-4 shadow-xl'>
             Total :{' '}
             <span className='font-bold tracking-wider ml-2'>{price}</span>

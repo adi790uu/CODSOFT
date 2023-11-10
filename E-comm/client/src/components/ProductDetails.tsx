@@ -1,18 +1,77 @@
-import Img1 from '../assets/books/book2.jpg';
 import Img2 from '../assets/books/book6.jpg';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Pricing from './Pricing';
+import { useQuery, gql, useMutation } from '@apollo/client';
+import { useState, useEffect } from 'react';
+import { useUser } from '../store/selectors/user';
+import { useRecoilValue } from 'recoil';
 
-const ProductCarousel = () => {
+const ProductCarousel = ({ id }: any) => {
+  const user = useRecoilValue(useUser);
+  console.log(user);
+
+  const getBook = gql`
+    query Query($id: String) {
+      getBookById(id: $id) {
+        author
+        comments {
+          description
+          user {
+            name
+          }
+        }
+        description
+        imageUrl
+        price
+        rating
+        stock
+        title
+        views
+      }
+    }
+  `;
+
+  const addToCart = gql`
+    mutation Mutation($input: createCartItem) {
+      addToCart(input: $input) {
+        userId
+        bookId
+      }
+    }
+  `;
+
+  const [Cart] = useMutation(addToCart);
+
+  const { data } = useQuery(getBook, { variables: { id } });
+  const [book, setBook] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      setBook(data.getBookById);
+    }
+  }, [data, setBook]);
+
+  console.log(book);
+
+  const handleClick = async (e: any) => {
+    e.preventDefault();
+    const input = {
+      bookId: id,
+      userId: user.id,
+    };
+    const cart = await Cart({ variables: { input } });
+    console.log(cart);
+  };
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 w-4/5 m-auto mt-10'>
       <div className=''>
         <div className='min-w-lg p-4 rounded-lg overflow-hidden'>
           <Carousel showArrows={true} showThumbs={true}>
             <div className='rounded-md'>
-              <img className='rounded-md' src={Img1} alt='Product 1' />
-            </div>  
+              <img className='rounded-md' src={book.imageUrl} alt='Product 1' />
+            </div>
             <div>
               <img className='rounded-md' src={Img2} alt='Product 2' />
             </div>
@@ -20,52 +79,57 @@ const ProductCarousel = () => {
         </div>
         <div className='divider'></div>
         <div className='mt-10 min-w-full flex flex-col md:flex-row md:justify-evenly'>
-          <button className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-emerald-900 hover:bg-emerald-700 text-neutral-300'>
+          <button
+            onClick={handleClick}
+            className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-emerald-900 hover:bg-emerald-700 text-neutral-300'
+          >
             Add To Cart
-          </button>
-          <button className='mt-5 btn btn-xs sm:mt-0 sm:btn-sm md:btn-md lg:btn-lg bg-rose-900 hover:bg-rose-700 text-neutral-300'>
-            Buy Later
           </button>
         </div>
       </div>
       <div className='p-4 md:ml-10'>
         <p className='font-body font-semibold text-3xl text-neutral-300 pl-4 mt-4 md:mt-0'>
-          Product Name
+          {book.title}
         </p>
         <div className='stats shadow mt-10 flex flex-col md:flex-row'>
           <div className='stat'>
             <div className='stat-title'>Rating</div>
-            <div className='rating'>
-              <input
-                type='radio'
-                name='rating-2'
-                className='mask mask-star-2 bg-orange-400'
-                readOnly
-              />
-              <input
-                type='radio'
-                name='rating-2'
-                className='mask mask-star-2 bg-orange-400'
-                readOnly
-              />
-              <input
-                type='radio'
-                name='rating-2'
-                className='mask mask-star-2 bg-orange-400'
-                readOnly
-              />
-              <input
-                type='radio'
-                name='rating-2'
-                className='mask mask-star-2 bg-orange-400'
-                readOnly
-              />
-              <input
-                type='radio'
-                name='rating-2'
-                className='mask mask-star-2 bg-orange-400'
-                readOnly
-              />
+            <div className='flex items-center'>
+              <span
+                className={`text-3xl ${
+                  book.rating >= 1 ? 'text-yellow-500' : 'text-gray-400'
+                }`}
+              >
+                ★
+              </span>
+              <span
+                className={`text-3xl ${
+                  book.rating >= 2 ? 'text-yellow-500' : 'text-gray-400'
+                }`}
+              >
+                ★
+              </span>
+              <span
+                className={`text-3xl ${
+                  book.rating >= 3 ? 'text-yellow-500' : 'text-gray-400'
+                }`}
+              >
+                ★
+              </span>
+              <span
+                className={`text-3xl ${
+                  book.rating >= 4 ? 'text-yellow-500' : 'text-gray-400'
+                }`}
+              >
+                ★
+              </span>
+              <span
+                className={`text-3xl ${
+                  book.rating === 5 ? 'text-yellow-500' : 'text-gray-400'
+                }`}
+              >
+                ★
+              </span>
             </div>
           </div>
 
@@ -86,42 +150,20 @@ const ProductCarousel = () => {
               </svg>
             </div>
             <div className='stat-title'>Page Views</div>
-            <div className='stat-value text-secondary'>2.6M</div>
-            <div className='stat-desc'>21% more than last month</div>
+            <div className='stat-value text-secondary'>{book.views}</div>
           </div>
 
           <div className='stat'>
-            <div className='stat-value'>86%</div>
+            <div className='stat-value'>{book.stock}</div>
             <div className='stat-title'>Stock Remaining</div>
-            <div className='stat-desc text-secondary'>31 tasks remaining</div>
           </div>
         </div>
-        <Pricing />
+        <Pricing price={book.price} />
         <div className='mt-14 rounded-lg shadow-md shadow-neutral-700 overflow-x-auto overflow-y-auto w-full'>
           <p className='pl-4 pt-4 font-body'>Product Description :</p>
           <div className='divider'></div>
           <article className='prose pl-4 pr-4 pb-4 font-body tracking-wide h-[32rem] font-normal text-justify text-lg'>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam odio
-            sed consequatur provident animi voluptas voluptates sequi
-            laboriosam! Laborum quidem quisquam quia unde incidunt eaque nam
-            animi accusamus odit odio? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Labore reprehenderit iste ratione maiores harum
-            sit officia, expedita, non quia laboriosam impedit nostrum corporis
-            accusantium eum optio hic aperiam aliquid illo. Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Quisquam quae rem dolorum
-            dicta, atque mollitia molestias omnis fugit reprehenderit inventore
-            recusandae suscipit obcaecati minus libero sunt illum magnam
-            possimus soluta. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Consequuntur tenetur reiciendis libero, ullam, in quibusdam
-            possimus aut, harum dolores eius magnam eaque iusto placeat sit
-            vitae distinctio! Ad perspiciatis iusto repellat ab facere tempora,
-            ratione aperiam nobis corporis provident deserunt. Placeat quod amet
-            sequi reiciendis fugit nulla rerum nostrum provident exercitationem
-            beatae suscipit, ea, at natus voluptatem deserunt quam quas, eos
-            consequatur? Libero, odio. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Iure maxime esse omnis veritatis doloribus
-            repellat nam accusamus quo voluptas dolore. Nulla animi atque minus
-            architecto soluta quibusdam possimus, consequatur ipsa.
+            {book && book.description}
           </article>
         </div>
       </div>

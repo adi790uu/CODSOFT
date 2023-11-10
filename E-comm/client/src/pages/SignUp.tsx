@@ -1,17 +1,55 @@
+import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import validator from 'validator';
+import { userState } from '../store/atoms/user';
+import { useSetRecoilState } from 'recoil';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+
+  const setUser = useSetRecoilState(userState);
+
+  const CREATE_USER = gql`
+    mutation Mutation(
+      $name: String!
+      $email: String!
+      $password: String!
+      $address: String
+    ) {
+      createUser(
+        name: $name
+        email: $email
+        password: $password
+        address: $address
+      ) {
+        address
+        email
+        id
+        name
+        orders {
+          bookId
+          quantity
+          status
+          userId
+        }
+        token
+        otp
+      }
+    }
+  `;
+
+  const [createUser] = useMutation(CREATE_USER);
 
   let navigate = useNavigate();
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (email === '' || password === '' || confirmPass === '') {
       toast.error('Enter the required details!', {
         position: toast.POSITION.TOP_CENTER,
@@ -24,7 +62,17 @@ const SignUp = () => {
       setEmail('');
       setPassword('');
       setConfirmPass('');
-      navigate('/auth');
+      const res = await createUser({
+        variables: { email, password, name, address },
+      });
+      console.log(res);
+      setUser({
+        email: res.data.createUser.email,
+        name: res.data.createUser.name,
+        token: res.data.createUser.token,
+        id: res.data.createUser.id,
+      });
+      if (res) navigate('/auth');
     } else {
       toast.error('Invalid Email!', {
         position: toast.POSITION.TOP_CENTER,
@@ -41,6 +89,12 @@ const SignUp = () => {
           </p>
           <input
             className='bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3'
+            placeholder='Name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            className='bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3 mt-2'
             placeholder='Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -56,6 +110,12 @@ const SignUp = () => {
             placeholder='Confirm password'
             value={confirmPass}
             onChange={(e) => setConfirmPass(e.target.value)}
+          />
+          <input
+            className='bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3 mt-2'
+            placeholder='Address'
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
           <span className='mt-4 mb-4'>
             Already a member?{' '}

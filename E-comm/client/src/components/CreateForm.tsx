@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-// import { booksState } from '../store/atoms/books';
-// import { useSetRecoilState } from 'recoil';
+import { booksState } from '../store/atoms/books';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useBooks } from '../store/selectors/books';
 
 const CREATE_BOOK = gql`
   mutation createBook($input: createBookInputs!) {
@@ -16,8 +17,12 @@ const CREATE_BOOK = gql`
   }
 `;
 
-const BookForm = () => {
-  //   const setBooks = useSetRecoilState(booksState);
+const CreateForm = () => {
+  const setBooks = useSetRecoilState(booksState);
+  const books = useRecoilValue(useBooks);
+
+  console.log(books);
+
   const [bookData, setBookData] = useState({
     title: '',
     author: '',
@@ -26,12 +31,10 @@ const BookForm = () => {
     description: '',
   });
   const [imageFile, setImageFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     setImageFile(file);
-    console.log(imageFile);
   };
 
   const uploadImage = async () => {
@@ -52,10 +55,10 @@ const BookForm = () => {
           body: formData,
         },
       );
-
+      console.log(response);
       if (response.status === 200) {
         const data = await response.json();
-        setImageUrl(data.secure_url);
+        return data.secure_url;
       } else {
         alert('Image upload to Cloudinary failed.');
       }
@@ -70,14 +73,12 @@ const BookForm = () => {
 
     if (name === 'price' || name === 'stock') {
       value = parseInt(value);
-      console.log(value);
     }
 
     setBookData({
       ...bookData,
       [name]: value,
     });
-    console.log(bookData);
   };
 
   const [createBook] = useMutation(CREATE_BOOK);
@@ -85,31 +86,30 @@ const BookForm = () => {
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
-    await uploadImage();
+    const uploadedImageUrl = await uploadImage();
 
-    console.log(imageUrl);
+    if (uploadedImageUrl) {
+      const input = {
+        ...bookData,
+        imageUrl: uploadedImageUrl,
+      };
 
-    const input = {
-      ...bookData,
-      imageUrl: imageUrl,
-    };
+      console.log(input);
 
-    console.log(input);
+      try {
+        const { data } = await createBook({ variables: { input } });
 
-    try {
-      const { data } = await createBook({ variables: { input } });
-      console.log('Created book:', data.createBook);
-
-      setBookData({
-        title: '',
-        author: '',
-        price: 0,
-        stock: 0,
-        description: '',
-      });
-      console.log(bookData);
-    } catch (error) {
-      console.error('Error creating book:', error);
+        setBooks([...books, data.createBook]);
+        setBookData({
+          title: '',
+          author: '',
+          price: 0,
+          stock: 0,
+          description: '',
+        });
+      } catch (error) {
+        console.error('Error creating book:', error);
+      }
     }
   };
 
@@ -219,4 +219,4 @@ const BookForm = () => {
   );
 };
 
-export default BookForm;
+export default CreateForm;

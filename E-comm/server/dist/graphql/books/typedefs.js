@@ -12,6 +12,7 @@ exports.typedefs = `#graphql
     userId: String,
     bookId: String,
     description: String
+    rating: Int
   }
 
   type Book {
@@ -23,6 +24,7 @@ exports.typedefs = `#graphql
     author: String
     stock: Int
     imageUrl: String
+    views: Int
     comments: [Review]
   }
 
@@ -46,5 +48,16 @@ exports.typedefs = `#graphql
     rating: Int!
   }
 
-  
+  input createCartItem {
+    userId: ID!,
+    bookId: ID!,
+  }
+
+  type Cart {
+    id: ID!
+    userId: ID!,
+    bookId: ID!,
+    quantity: Int,
+  }
+
 `;

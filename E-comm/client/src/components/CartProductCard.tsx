@@ -1,8 +1,11 @@
-import Img1 from '../assets/books/book2.jpg';
 import { useState } from 'react';
 
 const CartProductCard = (props: any) => {
   const [quantity, setQuantity] = useState(1);
+
+  const { order } = props;
+
+  console.log(order);
 
   const incrementQuantity = () => {
     setQuantity(quantity + 1);
@@ -17,15 +20,18 @@ const CartProductCard = (props: any) => {
     <div className='m-auto w-full md:w-2/4 flex flex-col md:flex-row rounded-md p-4 font-body border-t-2 border-b-2 border-stone-400'>
       <div className='flex md:w-3/4'>
         <div className='rounded-lg'>
-          <img className='w-32 md:w-48 object-scale-down' src={Img1} />
+          <img
+            className='w-32 md:w-48 object-scale-down'
+            src={order.book.imageUrl}
+          />
         </div>
         <div className='w-full flex flex-col justify-evenly'>
           <p className='ml-4 font-medium text-neutral-300 text-lg md:text-2xl '>
-            {props.order.product}
+            {order.book.title}
           </p>
 
           <span className='text-base md:text-xl ml-4 text-neutral-300'>
-            Pricing: <span>{props.order.price}</span>
+            Pricing: <span>{order.book.price}</span>
           </span>
         </div>
       </div>
@@ -42,7 +48,7 @@ const CartProductCard = (props: any) => {
               type='text'
               id='quantity'
               name='quantity'
-              value={quantity}
+              value={order.quantity}
               onChange={(e: any) => setQuantity(e.target.value)}
               className='text-center pt-1 pb-1 rounded-lg w-9 bg-neutral-300 text-slate-900 outline-none'
             />

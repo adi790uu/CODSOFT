@@ -24,6 +24,7 @@ function createGraphqlServer() {
         type Query {
           ${users_1.User.queries}
           ${books_1.Book.queries}
+          ${orders_1.Order.queries}
         }
 
         type Mutation {
@@ -34,7 +35,7 @@ function createGraphqlServer() {
 
     `,
             resolvers: {
-                Query: Object.assign(Object.assign({}, users_1.User.resolvers.queries), books_1.Book.resolvers.queries),
+                Query: Object.assign(Object.assign(Object.assign({}, users_1.User.resolvers.queries), books_1.Book.resolvers.queries), orders_1.Order.resolvers.queries),
                 Mutation: Object.assign(Object.assign(Object.assign({}, users_1.User.resolvers.mutations), books_1.Book.resolvers.mutations), orders_1.Order.resolvers.mutations),
             },
         });
