@@ -26,6 +26,7 @@ exports.typedefs = `#graphql
     imageUrl: String
     views: Int
     comments: [Review]
+    category: String
   }
 
   input createBookInputs {
@@ -35,6 +36,7 @@ exports.typedefs = `#graphql
     author: String!
     stock: Int!
     imageUrl: String!
+    category: String!
   }
 
   input updateBook {

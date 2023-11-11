@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.typedefs = void 0;
 exports.typedefs = `#graphql
     
-    input getCart {
+    input getCartInput {
         userId: ID!
     }
 
-    type Cart {
+    type getCart {
         userId: ID!
-        book: Book
+        book: Book!
         quantity: Int!
     }
 
@@ -24,5 +24,10 @@ exports.typedefs = `#graphql
         bookId: ID!
         quantity: Int!
         status: Boolean!
+    }
+
+    input updateQuantity {
+        userId: ID!
+        bookId: ID!
     }
 `;

@@ -4,5 +4,5 @@ exports.queries = void 0;
 exports.queries = `#graphql
     # getCurrentOrdersByUserId(id: ID!)
     # getPastOrdersByUserId(id: ID!)
-    getCart(input: getCart): [Cart]
+    getCart(input: getCartInput): [getCart]
 `;

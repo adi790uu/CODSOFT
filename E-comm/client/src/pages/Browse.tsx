@@ -1,63 +1,75 @@
 import { useState } from 'react';
 import Filter from '../assets/funnel_3513349.png';
 import BrowseCard from '../components/BrowseCard';
-import Img5 from '../assets/books/book5.jpg';
-import Img6 from '../assets/books/book6.jpg';
-import Img1 from '../assets/books/book1.jpg';
-import Img2 from '../assets/books/book2.jpg';
-import Img3 from '../assets/books/book3.jpg';
 import { useBooks } from '../store/selectors/books';
 import { useRecoilValue } from 'recoil';
 
-const books = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: '40',
-    img: Img5,
-  },
-  {
-    id: 2,
-    name: 'Product 1',
-    price: '40',
-    img: Img6,
-  },
-  {
-    id: 3,
-    name: 'Product 1',
-    price: '40',
-    img: Img1,
-  },
-  {
-    id: 4,
-    name: 'Product 1',
-    price: '40',
-    img: Img2,
-  },
-  {
-    id: 5,
-    name: 'Product 1',
-    price: '40',
-    img: Img3,
-  },
-];
 
 const Browse = () => {
   const books = useRecoilValue(useBooks);
   const [stat, setStat] = useState('stat1');
-  const [cat, setCat] = useState('cat1');
+  const [cat, setCat] = useState('Fiction');
   const [price, setPrice] = useState('price1');
+  const [filteredBooks, setFilteredBooks] = useState([...books]);
+  const [page, setPage] = useState(1);
+
+  const numOfPages = Math.ceil(filteredBooks.length / 9);
+
+  const startIndex = (page - 1) * 9;
+  const endIndex = startIndex + 9;
+
+  console.log(books);
+  console.log(filteredBooks);
 
   const handleStatChange = (event: any) => {
-    setStat(event.target.value);
+    let select = event.target.value;
+    setStat(select);
+    setFilteredBooks((prevBooks) =>
+      select === 'stat1'
+        ? [...prevBooks].sort((a: any, b: any) => b.rating - a.rating)
+        : [...prevBooks].sort((a: any, b: any) => b.bought - a.bought),
+    );
   };
 
   const handleCatChange = (event: any) => {
-    setCat(event.target.value);
+    let select = event.target.value;
+    setCat(select);
+    setFilteredBooks(
+      [...books].filter((book: any) => book.category === select),
+    );
   };
 
   const handlePriceChange = (event: any) => {
-    setPrice(event.target.value);
+    let select = event.target.value;
+    setPrice(select);
+    setFilteredBooks((prevBooks) =>
+      select === 'price1'
+        ? [...prevBooks].sort((a: any, b: any) => b.price - a.price)
+        : [...prevBooks].sort((a: any, b: any) => a.price - b.price),
+    );
+  };
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    setFilteredBooks([...books]);
+  };
+
+  const decrement = (e: any) => {
+    e.preventDefault();
+
+    if (page === 1) {
+      return;
+    }
+    setPage(parseInt(page) - 1);
+  };
+
+  const increment = (e: any) => {
+    e.preventDefault();
+
+    if (page === numOfPages) {
+      return;
+    }
+    setPage(parseInt(page) + 1);
   };
 
   const filters = [
@@ -66,9 +78,8 @@ const Browse = () => {
       value: stat,
       change: handleStatChange,
       options: [
-        { val: 'stat1', title: 'Most Viewed' },
-        { val: 'stat2', title: 'Highly Rated' },
-        { val: 'stat3', title: 'Most Bought' },
+        { val: 'stat1', title: 'Highly Rated' },
+        { val: 'stat2', title: 'Most Bought' },
       ],
     },
     {
@@ -76,11 +87,11 @@ const Browse = () => {
       value: cat,
       change: handleCatChange,
       options: [
-        { val: 'cat1', title: 'Fiction' },
-        { val: 'cat2', title: 'Non-Fiction' },
-        { val: 'cat3', title: 'Science' },
-        { val: 'cat4', title: 'Mystery and Thriller' },
-        { val: 'cat5', title: 'Technology' },
+        { val: 'Fiction', title: 'Fiction' },
+        { val: 'Non-Fiction', title: 'Non-Fiction' },
+        { val: 'Science', title: 'Science' },
+        { val: 'Mystery and Thriller', title: 'Mystery and Thriller' },
+        { val: 'Technology', title: 'Technology' },
       ],
     },
     {
@@ -93,9 +104,6 @@ const Browse = () => {
       ],
     },
   ];
-
-  const filteredBooks =
-    stat === 'stat1' ? books : books.filter((book: any) => book.price === stat);
 
   return (
     <div className=' text-white min-h-screen bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
@@ -127,8 +135,8 @@ const Browse = () => {
                       Filters
                     </p>
                     <div className='w-full'>
-                      {filters.map((filter) => (
-                        <>
+                      {filters.map((filter, index) => (
+                        <div key={index}>
                           <h2 className='mt-4 text-lg font-body font-semibold mb-2'>
                             {filter.heading}
                           </h2>
@@ -137,17 +145,27 @@ const Browse = () => {
                             onChange={filter.change}
                             className='bg-neutral-300 text-black w-full p-2 rounded border font-body outline-none'
                           >
-                            {filter.options.map((option) => (
+                            <option value='nil'>Select</option>
+                            {filter.options.map((option, index) => (
                               <option
+                                key={index}
                                 value={option.val}
                                 className='font-body text-black p-2'
                               >
-                                <span>{option.title}</span>
+                                {option.title}
                               </option>
                             ))}
                           </select>
-                        </>
+                        </div>
                       ))}
+                      <div className='flex justify-center mt-4 text-sm'>
+                        <button
+                          onClick={handleClick}
+                          className='btn btn-sm bg-slate-500 text-white w-1/2'
+                        >
+                          Reset
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -158,9 +176,30 @@ const Browse = () => {
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-3'>
-              {filteredBooks.map((book: any) => (
+              {filteredBooks.slice(startIndex, endIndex).map((book: any) => (
                 <BrowseCard product={book} key={book.id} />
               ))}
+            </div>
+            <div className='join flex justify-center mt-14 mb-10 text-white'>
+              <button
+                onClick={decrement}
+                className={`btn bg-slate-700 hover:bg-slate-600 shadow-xl border-neutral-400 text-2xl ${
+                  page === 1 ? 'hidden' : ''
+                }`}
+              >
+                «
+              </button>
+              <button className='join-item btn border-none outline-none bg-transparent hover:bg-transparent'>
+                Page {page}
+              </button>
+              <button
+                onClick={increment}
+                className={`btn bg-slate-700 hover:bg-slate-600 shadow-xl border-neutral-400 text-2xl  ${
+                  page === numOfPages ? 'hidden' : ''
+                }`}
+              >
+                »
+              </button>
             </div>
           </div>
         </div>

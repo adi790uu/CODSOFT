@@ -20,8 +20,18 @@ const CREATE_BOOK = gql`
 const CreateForm = () => {
   const setBooks = useSetRecoilState(booksState);
   const books = useRecoilValue(useBooks);
+  const [category, setCategory] = useState('');
+  const [imageFile, setImageFile] = useState(null);
 
   console.log(books);
+
+  const options = [
+    'Fiction',
+    'Non-Fiction',
+    'Science',
+    'Mystery and Thriller',
+    'Technology',
+  ];
 
   const [bookData, setBookData] = useState({
     title: '',
@@ -30,7 +40,6 @@ const CreateForm = () => {
     stock: 0,
     description: '',
   });
-  const [imageFile, setImageFile] = useState(null);
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -80,8 +89,10 @@ const CreateForm = () => {
       [name]: value,
     });
   };
-
+  
   const [createBook] = useMutation(CREATE_BOOK);
+  // console.log(bookData.category);
+  console.log(category);
 
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
@@ -91,6 +102,7 @@ const CreateForm = () => {
     if (uploadedImageUrl) {
       const input = {
         ...bookData,
+        category: category,
         imageUrl: uploadedImageUrl,
       };
 
@@ -107,6 +119,7 @@ const CreateForm = () => {
           stock: 0,
           description: '',
         });
+        setCategory('');
       } catch (error) {
         console.error('Error creating book:', error);
       }
@@ -159,6 +172,26 @@ const CreateForm = () => {
           value={bookData.description}
           onChange={handleInputChange}
         />
+      </div>
+      <div className='mb-4'>
+        <label
+          className='block text-gray-700 text-sm font-bold mb-2'
+          htmlFor='category'
+        >
+          Category:
+        </label>
+        <select
+          id='dropdown'
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className='p-2 bg-white text-gray-700'
+        >
+          {options.map((option, index) => (
+            <option key={index} value={option} className='bg-neutral-200'>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
       <div className='mb-4'>
         <label

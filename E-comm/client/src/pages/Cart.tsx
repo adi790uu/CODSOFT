@@ -1,18 +1,22 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import CartProduct from '../components/CartProductCard';
 import { useUser } from '../store/selectors/user';
-import { useRecoilValue } from 'recoil';
-import { useState, useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useCart } from '../store/selectors/cart';
+import { cartState } from '../store/atoms/cart';
 
 const Cart = () => {
   let price = 0;
-  const [cart, setCart] = useState([]);
+  const cart = useRecoilValue(useCart);
+  const setCart = useSetRecoilState(cartState);
+  console.log(cart);
+
   const user = useRecoilValue(useUser);
 
   const GET_CART = gql`
-    query Query($input: getCart) {
+    query Query($input: getCartInput) {
       getCart(input: $input) {
-        id
         quantity
         book {
           id
@@ -31,12 +35,14 @@ const Cart = () => {
   const { data } = useQuery(GET_CART, { variables: { input } });
 
   useEffect(() => {
-    if (data && data.getCart) {
+    if (data) {
       setCart(data.getCart);
     }
   }, [data]);
 
-  data.getCart.map((order: any): any => {
+  console.log(cart);
+
+  cart.map((order: any): any => {
     price += order.book.price;
   });
   return (
@@ -49,7 +55,7 @@ const Cart = () => {
         {cart ? (
           cart.map((order) => (
             <div key={order.id} className='w-fit md:w-3/4 m-auto'>
-              <CartProduct order={order} />
+              <CartProduct order={{ order, user }} />
               <div className='divider'></div>
             </div>
           ))

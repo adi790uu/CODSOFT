@@ -2,6 +2,7 @@ import MostBought from '../components/MostBoughtCarousel';
 import HighestRated from '../components/HighestRatedCarousel';
 import Heading from '../components/Heading';
 import Categories from '../components/Categories';
+import ProductSearchBar from '../components/ProductSearchBar';
 
 const components = [
   {
@@ -29,17 +30,7 @@ const Home = () => {
     <div className='w-full  bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
       <div className='flex flex-col min-w-screen'>
         <div className='flex items-center justify-center mt-10 w-3/4 m-auto'>
-          <input
-            className='py-3 px-3 bg-slate-200 rounded-md w-72 outline-none text-slate-900'
-            placeholder='Search...'
-            type='text'
-          />
-          <button
-            type='button'
-            className='text-white bg-gradient-to-r ml-2 py-3 px-3 from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm text-center'
-          >
-            Search
-          </button>
+          <ProductSearchBar />
         </div>
 
         <div className='divider'></div>

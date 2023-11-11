@@ -1,14 +1,29 @@
+import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
 
 const CartProductCard = (props: any) => {
   const [quantity, setQuantity] = useState(1);
 
-  const { order } = props;
+  const UPDATE_QUANT = gql`
+    mutation Mutation($input: updateQuantity) {
+      updateQuantity(input: $input)
+    }
+  `;
+
+  const [updateQuantity] = useMutation(UPDATE_QUANT);
+
+  const { order, user } = props;
 
   console.log(order);
 
-  const incrementQuantity = () => {
+  const input = {
+    userId: user.Id,
+    bookId: order.book.id,
+  };
+
+  const incrementQuantity = async () => {
     setQuantity(quantity + 1);
+    await updateQuantity({ variables: { input } });
   };
 
   const decrementQuantity = () => {

@@ -54,5 +54,27 @@ const mutations = {
             console.log(e);
         }
     }),
+    updateQuantity: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            console.log(input.userId);
+            const cartItems = yield db_1.db.cartItem.update({
+                where: {
+                    unique_user_book: {
+                        userId: input.userId,
+                        bookId: input.bookId,
+                    },
+                },
+                data: {
+                    quantity: {
+                        increment: 1,
+                    },
+                },
+            });
+            console.log(cartItems);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }),
 };
 exports.resolvers = { mutations, queries };

@@ -34,6 +34,7 @@ model Book {
   imageUrl String?
   views Int @default(0)
   cart CartItem[]
+  category String?
 }
 
 model Orders {

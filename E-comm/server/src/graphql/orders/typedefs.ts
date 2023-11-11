@@ -1,12 +1,12 @@
 export const typedefs = `#graphql
     
-    input getCart {
+    input getCartInput {
         userId: ID!
     }
 
-    type Cart {
+    type getCart {
         userId: ID!
-        book: Book
+        book: Book!
         quantity: Int!
     }
 
@@ -21,5 +21,10 @@ export const typedefs = `#graphql
         bookId: ID!
         quantity: Int!
         status: Boolean!
+    }
+
+    input updateQuantity {
+        userId: ID!
+        bookId: ID!
     }
 `;

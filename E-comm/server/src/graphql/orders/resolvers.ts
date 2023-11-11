@@ -42,6 +42,28 @@ const mutations = {
       console.log(e);
     }
   },
+
+  updateQuantity: async (_: any, { input }: any) => {
+    try {
+      console.log(input.userId);
+      const cartItems = await db.cartItem.update({
+        where: {
+          unique_user_book: {
+            userId: input.userId,
+            bookId: input.bookId,
+          },
+        },
+        data: {
+          quantity: {
+            increment: 1,
+          },
+        },
+      });
+      console.log(cartItems);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export const resolvers = { mutations, queries };

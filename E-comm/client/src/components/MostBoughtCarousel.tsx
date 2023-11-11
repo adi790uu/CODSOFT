@@ -19,6 +19,7 @@ function MostBoughtCarousel() {
         stock
         title
         imageUrl
+        category
       }
     }
   `;
@@ -36,9 +37,9 @@ function MostBoughtCarousel() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <div className='carousel carousel-end w-5/6 md:mr-4 md:ml-4'>
+    <div className='carousel carousel-end w-[95%] md:mr-4 md:ml-4'>
       {books.map((product: any) => (
-        <div className='carousel-item' key={product.id}>
+        <div className='carousel-item flex justify-center' key={product.id}>
           <ProductDisplay product={product} />
         </div>
       ))}
