@@ -36,8 +36,29 @@ const queries = {
                     },
                 },
             });
-            console.log(user);
             return user === null || user === void 0 ? void 0 : user.cartItems;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }),
+    getOrders: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            console.log('Here' + id);
+            const user = yield db_1.db.user.findUnique({
+                where: {
+                    id: id,
+                },
+                include: {
+                    orders: {
+                        include: {
+                            book: true,
+                        },
+                    },
+                },
+            });
+            // console.log(user?.orders);
+            return user === null || user === void 0 ? void 0 : user.orders;
         }
         catch (error) {
             console.log(error);
@@ -45,32 +66,39 @@ const queries = {
     }),
 };
 const mutations = {
-    createOrder: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const order = yield db_1.db.orders.create({ data: Object.assign({}, input) });
-            return order;
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }),
     updateQuantity: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            console.log(input.userId);
-            const cartItems = yield db_1.db.cartItem.update({
-                where: {
-                    unique_user_book: {
-                        userId: input.userId,
-                        bookId: input.bookId,
+            if (input.inc === true) {
+                yield db_1.db.cartItem.update({
+                    where: {
+                        unique_user_book: {
+                            userId: input.userId,
+                            bookId: input.bookId,
+                        },
                     },
-                },
-                data: {
-                    quantity: {
-                        increment: 1,
+                    data: {
+                        quantity: {
+                            increment: 1,
+                        },
                     },
-                },
-            });
-            console.log(cartItems);
+                });
+            }
+            else {
+                yield db_1.db.cartItem.update({
+                    where: {
+                        unique_user_book: {
+                            userId: input.userId,
+                            bookId: input.bookId,
+                        },
+                    },
+                    data: {
+                        quantity: {
+                            decrement: 1,
+                        },
+                    },
+                });
+            }
+            return 'Success';
         }
         catch (error) {
             console.log(error);

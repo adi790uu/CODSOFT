@@ -11,14 +11,8 @@ export const typedefs = `#graphql
     }
 
     type Order {
-        userId: ID!
-        bookId: ID!
-        quantity: Int!
-        status: Boolean!
-    }
-    input createOrder {
-        userId: ID!
-        bookId: ID!
+        id: ID!
+        book: Book!
         quantity: Int!
         status: Boolean!
     }
@@ -26,5 +20,6 @@ export const typedefs = `#graphql
     input updateQuantity {
         userId: ID!
         bookId: ID!
+        inc: Boolean
     }
 `;

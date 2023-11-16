@@ -25,8 +25,30 @@ const queries = {
           },
         },
       });
-      console.log(user);
+
       return user?.cartItems;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getOrders: async (_: any, { id }: any) => {
+    try {
+      console.log('Here' + id);
+      const user = await db.user.findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          orders: {
+            include: {
+              book: true,
+            },
+          },
+        },
+      });
+      // console.log(user?.orders);
+      return user?.orders;
     } catch (error) {
       console.log(error);
     }
@@ -34,32 +56,39 @@ const queries = {
 };
 
 const mutations = {
-  createOrder: async (_: any, { input }: any) => {
-    try {
-      const order = await db.orders.create({ data: { ...input } });
-      return order;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-
   updateQuantity: async (_: any, { input }: any) => {
     try {
-      console.log(input.userId);
-      const cartItems = await db.cartItem.update({
-        where: {
-          unique_user_book: {
-            userId: input.userId,
-            bookId: input.bookId,
+      if (input.inc === true) {
+        await db.cartItem.update({
+          where: {
+            unique_user_book: {
+              userId: input.userId,
+              bookId: input.bookId,
+            },
           },
-        },
-        data: {
-          quantity: {
-            increment: 1,
+          data: {
+            quantity: {
+              increment: 1,
+            },
           },
-        },
-      });
-      console.log(cartItems);
+        });
+      } else {
+        await db.cartItem.update({
+          where: {
+            unique_user_book: {
+              userId: input.userId,
+              bookId: input.bookId,
+            },
+          },
+          data: {
+            quantity: {
+              decrement: 1,
+            },
+          },
+        });
+      }
+
+      return 'Success';
     } catch (error) {
       console.log(error);
     }

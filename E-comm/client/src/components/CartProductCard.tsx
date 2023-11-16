@@ -1,8 +1,10 @@
 import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
+import { useUser } from '../store/selectors/user';
+import { useRecoilValue } from 'recoil';
 
 const CartProductCard = (props: any) => {
-  const [quantity, setQuantity] = useState(1);
+  const user = useRecoilValue(useUser);
 
   const UPDATE_QUANT = gql`
     mutation Mutation($input: updateQuantity) {
@@ -12,23 +14,30 @@ const CartProductCard = (props: any) => {
 
   const [updateQuantity] = useMutation(UPDATE_QUANT);
 
-  const { order, user } = props;
+  const { order } = props;
 
-  console.log(order);
+  const [quantity, setQuantity] = useState(order.order.quantity);
 
-  const input = {
-    userId: user.Id,
-    bookId: order.book.id,
-  };
-
-  const incrementQuantity = async () => {
+  const incrementQuantity = async (e: any) => {
     setQuantity(quantity + 1);
+
+    const input = {
+      userId: user.id,
+      bookId: order.order.book.id,
+      inc: true,
+    };
     await updateQuantity({ variables: { input } });
   };
 
-  const decrementQuantity = () => {
+  const decrementQuantity = async (e: any) => {
     if (quantity > 1) {
+      const input = {
+        userId: user.id,
+        bookId: order.order.book.id,
+        inc: false,
+      };
       setQuantity(quantity - 1);
+      await updateQuantity({ variables: { input } });
     }
   };
   return (
@@ -37,16 +46,16 @@ const CartProductCard = (props: any) => {
         <div className='rounded-lg'>
           <img
             className='w-32 md:w-48 object-scale-down'
-            src={order.book.imageUrl}
+            src={order.order.book.imageUrl}
           />
         </div>
         <div className='w-full flex flex-col justify-evenly'>
           <p className='ml-4 font-medium text-neutral-300 text-lg md:text-2xl '>
-            {order.book.title}
+            {order.order.book.title}
           </p>
 
           <span className='text-base md:text-xl ml-4 text-neutral-300'>
-            Pricing: <span>{order.book.price}</span>
+            Pricing: <span>&#x20B9;{order.order.book.price}</span>
           </span>
         </div>
       </div>
@@ -54,6 +63,7 @@ const CartProductCard = (props: any) => {
         <div className='flex items-center'>
           <div className='flex items-center justify-around m-auto md:m-0'>
             <button
+              id='dec'
               onClick={decrementQuantity}
               className='w-7 h-7 rounded-full bg-red-900 hover:bg-red-600 mr-1'
             >
@@ -63,11 +73,12 @@ const CartProductCard = (props: any) => {
               type='text'
               id='quantity'
               name='quantity'
-              value={order.quantity}
+              value={quantity}
               onChange={(e: any) => setQuantity(e.target.value)}
               className='text-center pt-1 pb-1 rounded-lg w-9 bg-neutral-300 text-slate-900 outline-none'
             />
             <button
+              id='inc'
               onClick={incrementQuantity}
               className='w-7 h-7 rounded-full bg-green-900 hover:bg-green-600 ml-1'
             >
@@ -76,7 +87,7 @@ const CartProductCard = (props: any) => {
           </div>
         </div>
 
-        <button className='mt-2 text-xs md:text-md btn btn-sm md:btn-md md:w-1/4 bg-slate-900 text-white tracking-wider hover:bg-slate-800'>
+        <button className='mt-2 text-xs md:text-md btn btn-sm md:btn-md md:w-1/4 bg-slate-900 text-white tracking-wider hover:bg-slate-800 '>
           View Product
         </button>
       </div>

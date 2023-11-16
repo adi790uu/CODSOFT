@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.queries = void 0;
 exports.queries = `#graphql
-    # getCurrentOrdersByUserId(id: ID!)
-    # getPastOrdersByUserId(id: ID!)
+    getOrders(id: ID!): [Order]
     getCart(input: getCartInput): [getCart]
 `;

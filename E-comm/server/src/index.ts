@@ -3,6 +3,13 @@ import express from 'express';
 import createGraphqlServer from './graphql';
 import UserService from './services/user';
 import cors from 'cors';
+import paymentRoute from './routes/paymentRoutes.js';
+import Razorpay from 'razorpay';
+
+export const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_API_KEY || '',
+  key_secret: process.env.RAZORPAY_API_SECRET,
+});
 
 async function init() {
   const app = express();
@@ -10,9 +17,12 @@ async function init() {
 
   app.use(express.json());
   app.use(cors());
-  app.get('/', (req, res) => {
-    res.json({ message: 'Server is up and running' });
-  });
+
+  app.use('/api', paymentRoute);
+
+  app.get('/api/getkey', (req, res) =>
+    res.status(200).json({ key: process.env.RAZORPAY_API_KEY }),
+  );
 
   app.use(
     '/graphql',

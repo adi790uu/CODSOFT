@@ -1,5 +1,4 @@
 export const queries = `#graphql
-    # getCurrentOrdersByUserId(id: ID!)
-    # getPastOrdersByUserId(id: ID!)
+    getOrders(id: ID!): [Order]
     getCart(input: getCartInput): [getCart]
 `;
