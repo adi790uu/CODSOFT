@@ -37,6 +37,8 @@ const Cart = () => {
     userId: user.id,
   };
 
+  console.log(user);
+
   const handlePayment = async () => {
     const {
       data: { key },
@@ -89,8 +91,8 @@ const Cart = () => {
   console.log(cart);
 
   return (
-    <div className='min-h-screen font-body tracking-wider'>
-      <p className='text-center font-title text-4xl mt-10 font-semibold'>
+    <div className='h-screen font-body tracking-wider bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
+      <p className='text-center font-title text-4xl pt-10 font-semibold'>
         My Cart
       </p>
       <div className='divider'></div>

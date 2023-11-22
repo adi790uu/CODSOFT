@@ -32,7 +32,7 @@ model Book {
   orders Orders[]
   comments Comment[]
   imageUrl String?
-  views Int @default(0)
+  bought Int @default(0)
   cart CartItem[]
   category String?
 }

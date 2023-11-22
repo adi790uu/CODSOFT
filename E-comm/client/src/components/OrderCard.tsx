@@ -1,4 +1,8 @@
+import Review from './Review';
+
 const OrderCard = (props: any) => {
+  console.log(props);
+
   return (
     <div className='m-auto w-full md:w-2/4 flex flex-col md:flex-row rounded-lg p-4 font-body mt-10 shadow-xl shadow-slate-800 border-t-2 border-stone-400 bg-slate-300 text-neutral-800'>
       <div className='flex md:w-3/4'>
@@ -27,9 +31,33 @@ const OrderCard = (props: any) => {
         >
           {props.order.status ? 'Completed' : 'In Progress'}
         </span>
-        <button className='mt-2  text-xs md:text-md btn btn-sm md:btn-md md:w-1/4 bg-slate-900 text-white tracking-wider'>
-          Bill
-        </button>
+        {props.order.status ? (
+          <>
+            <button
+              className='btn text-white text-sm mt-2'
+              onClick={() => document.getElementById('my_modal_10').showModal()}
+            >
+              Review
+            </button>
+            <dialog
+              id='my_modal_10'
+              className='modal modal-bottom sm:modal-middle'
+            >
+              <div className='modal-box  text-white'>
+                <div className='py-4'>
+                  <Review bookId={props.order.book.id} />
+                </div>
+                <div className='modal-action'>
+                  <form method='dialog'>
+                    <button className='btn'>Close</button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

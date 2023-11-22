@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { Star } from 'react-feather';
 
 const ProductDisplay = ({ product }: any) => {
   const navigate = useNavigate();
@@ -14,13 +15,30 @@ const ProductDisplay = ({ product }: any) => {
         <figure className='ml-1 mr-1 mt-1'>
           <img className='rounded-md' src={product.imageUrl} alt='Book' />
         </figure>
-        <div className='card-body mr-4 md:mr-0'>
-          <h2 className='card-title text-sm md:text-lg'>{product.title}</h2>
-          <div className='card-actions justify-between items-center tracking-wider mt-4 md:mt-0'>
+        <div className='p-4'>
+          <h2 className='text-lg font-semibold text-white mb-2'>
+            {product.title}
+          </h2>
+          <div className='flex items-center mb-2'>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <span
+                key={value}
+                className={`text-2xl ${
+                  value <= product.rating ? 'text-yellow-500' : 'text-gray-300'
+                }`}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+          <div className='flex justify-between items-center'>
             <span className='text-2xl font-bold text-violet-600'>
-              ${product.price}
+              &#x20B9;{product.price}
             </span>
-            <button onClick={handleClick} className='btn btn-primary'>
+            <button
+              onClick={handleClick}
+              className='bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded-md'
+            >
               Buy Now
             </button>
           </div>

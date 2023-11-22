@@ -93,6 +93,22 @@ const mutations = {
       console.log(error);
     }
   },
+  updateStatus: async (_: any, { orderId }: any) => {
+    try {
+      const res = await db.orders.update({
+        where: {
+          id: orderId,
+        },
+        data: {
+          status: true,
+        },
+      });
+      console.log(res);
+      return 'Success';
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export const resolvers = { mutations, queries };

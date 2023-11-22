@@ -45,6 +45,14 @@ const checkout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                         payId: order.id,
                     },
                 });
+                yield db_js_1.db.book.update({
+                    where: { id: cartItem.bookId },
+                    data: {
+                        bought: {
+                            increment: 1,
+                        },
+                    },
+                });
                 yield db_js_1.db.cartItem.delete({
                     where: {
                         id: cartItem.id,

@@ -3,7 +3,6 @@ export const mutations = `#graphql
     updateBook(input: updateBook): Book
     updateRating(input: updateRating): Book
     deleteBook(input: ID): String
-    increaseView(id: ID): String
-    createReview(input: createReview): Review
+    createReview(input: createReview): String
     addToCart(input: createCartItem): Cart
 `;

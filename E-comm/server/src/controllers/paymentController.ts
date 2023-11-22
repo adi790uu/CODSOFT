@@ -38,6 +38,15 @@ export const checkout = async (req: any, res: any) => {
           },
         });
 
+        await db.book.update({
+          where: { id: cartItem.bookId },
+          data: {
+            bought: {
+              increment: 1,
+            },
+          },
+        });
+
         await db.cartItem.delete({
           where: {
             id: cartItem.id,

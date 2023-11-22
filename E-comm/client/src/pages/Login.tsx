@@ -32,7 +32,7 @@ function Login() {
 
   return (
     <>
-      <div className='max-w-xl rounded-2xl bg-slate-900 m-auto mt-44 border shadow-md font-body'>
+      <div className='max-w-xl rounded-2xl bg-slate-900 m-auto mt-44 border shadow-md font-body bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
         <div className='flex flex-col gap-2 p-8'>
           <p className='text-center text-3xl text-gray-300 mb-4 font-semibold tracking-wide'>
             Login

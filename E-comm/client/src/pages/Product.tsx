@@ -1,30 +1,15 @@
-import ProductCarousel from '../components/ProductDetails';
+import ProductDetails from '../components/ProductDetails';
 import RecommendedProducts from '../components/RecommendedProductsCarousel';
 import Heading from '../components/Heading';
-import { useMutation, gql } from '@apollo/client';
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const Product = () => {
   const { id } = useParams();
-  const incView = gql`
-    mutation Mutation($id: ID) {
-      increaseView(id: $id)
-    }
-  `;
-  const [increaseView] = useMutation(incView, { variables: { id } });
 
-  function inc() {
-    increaseView({ variables: { id } });
-  }
-
-  useEffect(() => {
-    inc();
-  }, []);
   return (
-    <>
-      <ProductCarousel id={id} />
-      <div className='divider'></div>
+    <div className='container m-auto bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
+      <ProductDetails id={id} />
+
       <Heading heading='Similar Products' />
 
       <div className='mt-16 mb-16'>
@@ -35,7 +20,7 @@ const Product = () => {
         </div>
         <RecommendedProducts />
       </div>
-    </>
+    </div>
   );
 };
 

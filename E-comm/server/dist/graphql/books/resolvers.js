@@ -56,21 +56,6 @@ const mutations = {
             throw new Error();
         }
     }),
-    increaseView: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(id);
-        const res = yield db_1.db.book.update({
-            where: { id: id },
-            data: {
-                views: {
-                    increment: 1,
-                },
-            },
-        });
-        if (res)
-            return 'Updated';
-        else
-            console.log('fail');
-    }),
     updateBook: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const updatedBook = yield db_1.db.book.update({
@@ -146,7 +131,7 @@ const mutations = {
                     user: true,
                 },
             });
-            return review;
+            return 'Success';
         }
         catch (error) {
             console.log(error);

@@ -1,48 +1,20 @@
 import ProductDisplay from './ProductDisplay';
-import Img5 from '../assets/books/book5.jpg';
-import Img6 from '../assets/books/book6.jpg';
-import Img1 from '../assets/books/book1.jpg';
-import Img2 from '../assets/books/book2.jpg';
-import Img3 from '../assets/books/book3.jpg';
-
-const products = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: '40',
-    img: Img5,
-  },
-  {
-    id: 2,
-    name: 'Product 1',
-    price: '40',
-    img: Img6,
-  },
-  {
-    id: 3,
-    name: 'Product 1',
-    price: '40',
-    img: Img1,
-  },
-  {
-    id: 4,
-    name: 'Product 1',
-    price: '40',
-    img: Img2,
-  },
-  {
-    id: 5,
-    name: 'Product 1',
-    price: '40',
-    img: Img3,
-  },
-];
+import { useRecoilValue } from 'recoil';
+import { useBooks } from '../store/selectors/books';
 
 function HighestRatedCarousel() {
+  const books = useRecoilValue(useBooks);
+  console.log(books);
+
+  const filteredBooks = books.slice().sort((a, b) => b.rating - a.rating);
+  console.log(filteredBooks);
   return (
-    <div className='carousel carousel-end w-5/6 md:mr-4 md:ml-4'>
-      {products.map((product) => (
-        <div className='carousel-item mr-8' key={product.id}>
+    <div className='carousel carousel-end w-[95%] md:mr-4 md:ml-4'>
+      {filteredBooks.map((product) => (
+        <div
+          className='carousel-item flex justify-center transition-transform transform hover:scale-105'
+          key={product.id}
+        >
           <ProductDisplay product={product} />
         </div>
       ))}

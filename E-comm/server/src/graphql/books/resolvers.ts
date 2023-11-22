@@ -45,20 +45,6 @@ const mutations = {
     }
   },
 
-  increaseView: async (_: any, { id }: { id: string }) => {
-    console.log(id);
-    const res = await db.book.update({
-      where: { id: id },
-      data: {
-        views: {
-          increment: 1,
-        },
-      },
-    });
-    if (res) return 'Updated';
-    else console.log('fail');
-  },
-
   updateBook: async (_: any, { input }: any) => {
     try {
       const updatedBook = await db.book.update({
@@ -142,7 +128,7 @@ const mutations = {
         },
       });
 
-      return review;
+      return 'Success';
     } catch (error) {
       console.log(error);
     }

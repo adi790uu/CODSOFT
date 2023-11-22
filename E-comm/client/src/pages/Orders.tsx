@@ -45,7 +45,7 @@ const Orders = () => {
   return loading ? (
     <div>Loading</div>
   ) : (
-    <div className='min-h-screen font-body'>
+    <div className='min-h-screen font-body bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
       <p className='text-center font-title text-4xl mt-10 font-semibold'>
         Orders
       </p>

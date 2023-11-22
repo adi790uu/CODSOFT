@@ -3,6 +3,7 @@ export const typedefs = `#graphql
   type Review {
     user: User
     description: String!
+    rating: Int
   }
 
   input createReview {
@@ -24,6 +25,7 @@ export const typedefs = `#graphql
     views: Int
     comments: [Review]
     category: String
+    bought: Int
   }
 
   input createBookInputs {

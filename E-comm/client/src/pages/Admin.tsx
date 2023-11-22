@@ -1,7 +1,7 @@
 import BookForm from '../components/CreateForm';
 import UpdateForm from '../components/UpdateForm';
 import DeleteForm from '../components/DeleteForm';
-
+import OrdersForm from '../components/OrdersForm';
 function AdminPage() {
   // Sample sales data (replace with your actual data)
   const data = {
@@ -11,7 +11,7 @@ function AdminPage() {
     books: '2000',
   };
   return (
-    <div className='min-h-screen font-body'>
+    <div className='min-h-screen font-body bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
       <div className='bg-white w-3/4 shadow-md p-4 rounded-lg m-auto mt-5'>
         <h2 className='text-2xl font-semibold mb-4 text-neutral-600'>
           Admin Dashboard
@@ -134,6 +134,30 @@ function AdminPage() {
                   <div className='modal-action'>
                     <form method='dialog' className='w-full'>
                       <DeleteForm />
+                      <div className='flex justify-end'>
+                        <button className='btn mt-5'>Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
+            </div>
+            <div className='bg-white p-4 rounded-lg shadow-md flex gap-4 items-center justify-between bg-gradient-to-r from-slate-900 to-slate-700'>
+              <h3 className='text-xl font-semibold text-white'>Orders</h3>
+              <button
+                className='btn btn-sm btn-secondary'
+                onClick={() =>
+                  //@ts-ignore
+                  document.getElementById('my_modal_4').showModal()
+                }
+              >
+                Proceed
+              </button>
+              <dialog id='my_modal_4' className='modal'>
+                <div className='modal-box'>
+                  <div className='modal-action'>
+                    <form method='dialog' className='w-full'>
+                      <OrdersForm />
                       <div className='flex justify-end'>
                         <button className='btn mt-5'>Close</button>
                       </div>

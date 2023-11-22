@@ -104,5 +104,22 @@ const mutations = {
             console.log(error);
         }
     }),
+    updateStatus: (_, { orderId }) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const res = yield db_1.db.orders.update({
+                where: {
+                    id: orderId,
+                },
+                data: {
+                    status: true,
+                },
+            });
+            console.log(res);
+            return 'Success';
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }),
 };
 exports.resolvers = { mutations, queries };
