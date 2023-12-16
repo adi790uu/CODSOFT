@@ -1,12 +1,10 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useOrder } from '../store/selectors/orders';
+import { useRecoilState } from 'recoil';
 import { orderState } from '../store/atoms/orders';
 import { CheckSquare } from 'react-feather';
 import { gql, useMutation } from '@apollo/client';
 
 const OrdersForm = () => {
-  const orders = useRecoilValue(useOrder);
-  const setOrders = useSetRecoilState(orderState);
+  const [orders, setOrders] = useRecoilState(orderState);
 
   const UPDATE_STATUS = gql`
     mutation Mutation($updateStatusId: ID!) {

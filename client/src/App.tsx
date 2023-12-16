@@ -11,16 +11,12 @@ import Orders from './pages/Orders';
 import Cart from './pages/Cart';
 import Browse from './pages/Browse';
 import Admin from './pages/Admin';
-import { useUser } from './store/selectors/user';
-import { useRecoilValue } from 'recoil';
-import { useBooks } from './store/selectors/books';
+import { userState } from './store/atoms/user';
+import { useRecoilState } from 'recoil';
 
 function App() {
-  const user = useRecoilValue(useUser);
-  const books = useRecoilValue(useBooks);
-  console.log(books);
-  console.log(user);
-
+  const [user] = useRecoilState(userState);
+  
   return (
     <div className='bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800'>
       <BrowserRouter>

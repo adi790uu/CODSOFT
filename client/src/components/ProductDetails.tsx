@@ -1,15 +1,14 @@
 import Pricing from './Pricing';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { useState, useEffect } from 'react';
-import { useUser } from '../store/selectors/user';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState} from 'recoil';
 import ReviewSection from './ReviewSection';
 import Heading from './Heading';
-import { Loader } from 'react-feather';
+import { userState } from '../store/atoms/user';
 
 const ProductDetails = ({ id }: any) => {
-  const user = useRecoilValue(useUser);
-  console.log(user);
+  const [user] = useRecoilState(userState);
+                 
 
   const getBook = gql`
     query Query($id: String) {
@@ -37,23 +36,23 @@ const ProductDetails = ({ id }: any) => {
   const addToCart = gql`
     mutation Mutation($input: createCartItem) {
       addToCart(input: $input) {
+        id
+        quantity
         userId
-        bookId
+        book {
+          imageUrl
+          price
+          title
+        }
       }
     }
   `;
 
   const [Cart] = useMutation(addToCart);
 
-  const { data, error, loading } = useQuery(getBook, { variables: { id } });
-
-  console.log(loading);
+  const { data, loading } = useQuery(getBook, { variables: { id } });
 
   loading ? <div className='h-screen'>Loading...</div> : '';
-
-  console.log(error);
-
-  console.log(data);
 
   const [book, setBook] = useState({});
 
@@ -65,12 +64,14 @@ const ProductDetails = ({ id }: any) => {
 
   const handleClick = async (e: any) => {
     e.preventDefault();
+
     const input = {
       bookId: id,
       userId: user.id,
     };
-    const cart = await Cart({ variables: { input } });
-    console.log(cart);
+
+     await Cart({ variables: { input } });
+
   };
 
   return (

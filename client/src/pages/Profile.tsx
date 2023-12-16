@@ -1,9 +1,8 @@
-import { useRecoilValue } from 'recoil';
-import { useUser } from '../store/selectors/user';
+import { useRecoilState } from 'recoil';
+import { userState } from '../store/atoms/user';
 
 const Profile = () => {
-  const user = useRecoilValue(useUser);
-  console.log(user);
+  const [user] = useRecoilState(userState);
 
   // Simulated password change and account deletion functions
   const changePassword = () => {

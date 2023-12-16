@@ -1,17 +1,15 @@
 import { gql, useQuery } from '@apollo/client';
 import CartProduct from '../components/CartProductCard';
-import { useUser } from '../store/selectors/user';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
-import { useCart } from '../store/selectors/cart';
 import { cartState } from '../store/atoms/cart';
 import axios from 'axios';
+import { userState } from '../store/atoms/user';
 
 const Cart = () => {
   const [price, setPrice] = useState(0);
-  const cart = useRecoilValue(useCart);
-  const setCart = useSetRecoilState(cartState);
-  const user = useRecoilValue(useUser);
+  const [cart, setCart] = useRecoilState(cartState);
+  const [user] = useRecoilState(userState);
 
   const GET_CART = gql`
     query Query($input: getCartInput) {
@@ -74,26 +72,25 @@ const Cart = () => {
     }
   };
 
-  const { data, loading } = useQuery(GET_CART, { variables: { input } });
+  const { data, loading, refetch } = useQuery(GET_CART, { variables: { input } });
 
   useEffect(() => {
+    refetch()
     if (data && data.getCart) {
-      setCart(data.getCart);
-      console.log(cart);
+      setCart([...data.getCart]);
       const total = data?.getCart?.reduce(
         (acc, order) => acc + order.book.price * order.quantity,
         0,
       );
       setPrice(total);
     } else {
-      // If data is empty or getCart is undefined, setCart and setPrice to their initial values
       setCart([]);
       setPrice(0);
     }
-  }, [data, setCart]);
+  }, [data]);
 
   return (
-    <div className='h-screen font-body tracking-wider'>
+    <div className='min-h-screen font-body tracking-wider'>
       <p className='text-center font-title text-4xl pt-10 font-semibold'>
         My Cart
       </p>
@@ -106,7 +103,7 @@ const Cart = () => {
             {cart.length > 0 ? (
               cart.map((order) => (
                 <div key={order.id} className='w-fit md:w-3/4 m-auto'>
-                  <CartProduct order={{ order }} />
+                  <CartProduct order={order} />
                   <div className='divider'></div>
                 </div>
               ))

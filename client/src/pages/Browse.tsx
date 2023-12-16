@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Filter from '../assets/funnel_3513349.png';
 import BrowseCard from '../components/BrowseCard';
-import { useBooks } from '../store/selectors/books';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { booksState } from '../store/atoms/books';
 
 const Browse = () => {
-  const books = useRecoilValue(useBooks);
+  const [books] = useRecoilState(booksState);
   const [stat, setStat] = useState('stat1');
   const [cat, setCat] = useState('Fiction');
   const [price, setPrice] = useState('price1');
@@ -16,10 +16,7 @@ const Browse = () => {
 
   const startIndex = (page - 1) * 9;
   const endIndex = startIndex + 9;
-
-  console.log(books);
-  console.log(filteredBooks);
-
+  
   const handleStatChange = (event: any) => {
     let select = event.target.value;
     setStat(select);

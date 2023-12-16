@@ -1,14 +1,14 @@
 import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { Star } from 'react-feather'; // Assuming you have a Star component from react-feather
-import { useRecoilValue } from 'recoil';
-import { useUser } from '../store/selectors/user';
+import { useRecoilState } from 'recoil';
+import { userState } from '../store/atoms/user';
 
 const Review = ({ bookId }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
 
-  const user = useRecoilValue(useUser);
+  const [user] = useRecoilState(userState);
   console.log(user);
 
   const CREATE_REVIEW = gql`

@@ -1,10 +1,10 @@
 import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
-import { useUser } from '../store/selectors/user';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { userState } from '../store/atoms/user';
 
-const CartProductCard = (props: any) => {
-  const user = useRecoilValue(useUser);
+const CartProductCard = (props) => {
+  const [user] = useRecoilState(userState);
 
   const UPDATE_QUANT = gql`
     mutation Mutation($input: updateQuantity) {
@@ -16,14 +16,14 @@ const CartProductCard = (props: any) => {
 
   const { order } = props;
 
-  const [quantity, setQuantity] = useState(order.order.quantity);
+  const [quantity, setQuantity] = useState(order.quantity);
 
   const incrementQuantity = async (e: any) => {
     setQuantity(quantity + 1);
 
     const input = {
       userId: user.id,
-      bookId: order.order.book.id,
+      bookId: order.book.id,
       inc: true,
     };
     await updateQuantity({ variables: { input } });
@@ -33,9 +33,10 @@ const CartProductCard = (props: any) => {
     if (quantity > 1) {
       const input = {
         userId: user.id,
-        bookId: order.order.book.id,
+        bookId: order.book.id,
         inc: false,
       };
+
       setQuantity(quantity - 1);
       await updateQuantity({ variables: { input } });
     }
@@ -46,16 +47,16 @@ const CartProductCard = (props: any) => {
         <div className='rounded-lg'>
           <img
             className='w-32 md:w-48 object-scale-down'
-            src={order.order.book.imageUrl}
+            src={order.book.imageUrl}
           />
         </div>
         <div className='w-full flex flex-col justify-evenly'>
           <p className='ml-4 font-medium text-neutral-300 text-lg md:text-2xl '>
-            {order.order.book.title}
+            {order.book.title}
           </p>
 
           <span className='text-base md:text-xl ml-4 text-neutral-300'>
-            Pricing: <span>&#x20B9;{order.order.book.price}</span>
+            Pricing: <span>&#x20B9;{order.book.price}</span>
           </span>
         </div>
       </div>

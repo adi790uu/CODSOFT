@@ -1,5 +1,4 @@
 const BrowseCard = (props: any) => {
-  console.log(props.product.category);
   return (
     <div className='w-full md:w-3/4 flex flex-col rounded-lg p-4 font-body mt-10 shadow-xl shadow-slate-800 bg-slate-300'>
       <div className='flex md:w-3/4'>

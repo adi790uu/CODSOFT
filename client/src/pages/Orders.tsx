@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import OrderCard from '../components/OrderCard';
 import { gql, useQuery } from '@apollo/client';
-import { useUser } from '../store/selectors/user';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useOrder } from '../store/selectors/orders';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { orderState } from '../store/atoms/orders';
+import { userState } from '../store/atoms/user';
 
 const Orders = () => {
   const [openTab, setOpenTab] = useState(1);
-  const user = useRecoilValue(useUser);
-  const setOrder = useSetRecoilState(orderState);
-  const orders = useRecoilValue(useOrder);
+  const user = useRecoilValue(userState);
+  const [orders, setOrder] = useRecoilState(orderState)
 
   const GET_ORDERS = gql`
     query Query($id: ID!) {
@@ -31,19 +29,14 @@ const Orders = () => {
 
   const id = user.id;
 
-  const { data, loading, error } = useQuery(GET_ORDERS, {
+  const { data, loading, refetch } = useQuery(GET_ORDERS, {
     variables: { id },
   });
 
-  console.log(loading);
-
-  console.log(error);
-
-  console.log(data);
-
-  console.log(orders.length);
 
   useEffect(() => {
+
+    refetch()
     console.log('working');
 
     if (!loading) setOrder(data.getOrders);

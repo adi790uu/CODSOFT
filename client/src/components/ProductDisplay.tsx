@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductDisplay = ({ product }: any) => {
   const navigate = useNavigate();
-  console.log(product);
 
   const handleClick = (e: any) => {
     e.preventDefault();

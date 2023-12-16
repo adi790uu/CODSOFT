@@ -1,7 +1,7 @@
-import { useRecoilValue } from 'recoil';
-import { useBooks } from '../store/selectors/books';
+import { useRecoilState } from 'recoil';
+import { booksState } from '../store/atoms/books';
 const SearchResults = ({ query }: any) => {
-  const books = useRecoilValue(useBooks);
+  const [books] = useRecoilState(booksState);
   console.log(books);
 
   const filteredProducts = books

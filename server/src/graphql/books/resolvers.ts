@@ -167,14 +167,23 @@ const mutations = {
               increment: 1,
             },
           },
+          include: {
+            book: true,
+          },
         });
+
+      
         return cartItem;
       }
       const cartItem = await db.cartItem.create({
         data: {
           ...payload.input,
         },
+        include: {
+          book: true,
+        },
       });
+    
       return cartItem;
     } catch (error) {
       console.log(error);

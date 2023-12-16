@@ -5,9 +5,9 @@ import Categories from '../components/Categories';
 import ProductSearchBar from '../components/ProductSearchBar';
 import { gql, useQuery } from '@apollo/client';
 import { useEffect } from 'react';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { booksState } from '../store/atoms/books';
-import { useBooks } from '../store/selectors/books';
+
 
 const components = [
   {
@@ -31,8 +31,9 @@ const components = [
 ];
 
 const Home = () => {
-  const setBooks = useSetRecoilState(booksState);
-  const books = useRecoilValue(useBooks);
+
+  const [books, setBooks] = useRecoilState(booksState)
+
   const getBooks = gql`
     query Query {
       getBooks {
@@ -57,7 +58,7 @@ const Home = () => {
     }
   }, [data, setBooks]);
 
-  console.log(books);
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

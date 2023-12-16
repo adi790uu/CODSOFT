@@ -57,7 +57,7 @@ export const typedefs = `#graphql
   type Cart {
     id: ID!
     userId: ID!,
-    bookId: ID!,
+    book: Book,
     quantity: Int,
   }
 

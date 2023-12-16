@@ -169,11 +169,17 @@ const mutations = {
                             increment: 1,
                         },
                     },
+                    include: {
+                        book: true,
+                    },
                 });
                 return cartItem;
             }
             const cartItem = yield db_1.db.cartItem.create({
                 data: Object.assign({}, payload.input),
+                include: {
+                    book: true,
+                },
             });
             return cartItem;
         }

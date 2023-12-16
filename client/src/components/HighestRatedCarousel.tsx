@@ -1,13 +1,12 @@
 import ProductDisplay from './ProductDisplay';
-import { useRecoilValue } from 'recoil';
-import { useBooks } from '../store/selectors/books';
+import { useRecoilState } from 'recoil';
+import { booksState } from '../store/atoms/books';
 
 function HighestRatedCarousel() {
-  const books = useRecoilValue(useBooks);
-  console.log(books);
+  const [books] = useRecoilState(booksState);
 
   const filteredBooks = books.slice().sort((a, b) => b.rating - a.rating);
-  console.log(filteredBooks);
+ 
   return (
     <div className='carousel carousel-end w-[95%] md:mr-4 md:ml-4'>
       {filteredBooks.map((product) => (

@@ -1,8 +1,6 @@
 import Review from './Review';
 
 const OrderCard = (props: any) => {
-  console.log(props);
-
   return (
     <div className='m-auto w-full md:w-2/4 flex flex-col md:flex-row rounded-lg p-4 font-body mt-10 shadow-xl shadow-slate-800 border-t-2 border-stone-400 bg-slate-300 text-neutral-800'>
       <div className='flex md:w-3/4'>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { booksState } from '../store/atoms/books';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
 import { useBooks } from '../store/selectors/books';
 
 const CREATE_BOOK = gql`
@@ -18,12 +18,11 @@ const CREATE_BOOK = gql`
 `;
 
 const CreateForm = () => {
-  const setBooks = useSetRecoilState(booksState);
-  const books = useRecoilValue(useBooks);
+  const [books, setBooks] = useRecoilState(booksState)
+
   const [category, setCategory] = useState('');
   const [imageFile, setImageFile] = useState(null);
 
-  console.log(books);
 
   const options = [
     'Fiction',
